@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор зарплаты АЗС</title>
+    <style>
+        /* Сброс стилей и базовые настройки */
+        *{box-sizing: border-box;
+            margin: 0;
+            padding: 0;}body{font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            line-height: 1.6;}.azs-calculator-container{max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;}.azs-main-title{font-size: 2.5rem;
+            font-weight: 800;
+            color: #b91c1c;
+            text-align: center;
+            margin-bottom: 32px;
+            text-transform: uppercase;
+            letter-spacing: 1px;}.azs-position-selector{margin-bottom: 32px;}.azs-label{display: block;
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 8px;}.azs-select, .azs-input{padding: 12px;
+            width: 100%;
+            border: 2px solid #000000;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;}.azs-select:focus, .azs-input:focus{outline: none;
+            border-color: #b91c1c;}.azs-section{background-color: #ffffff;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 32px;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;}.azs-section.azs-visible{opacity: 1;
+            transform: translateY(0);}.azs-section-title{font-size: 1.875rem;
+            font-weight: 800;
+            color: #b91c1c;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;}.azs-fields-grid{display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;}.azs-field, .azs-subfield{opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;}.azs-field.azs-visible, .azs-subfield.azs-visible{opacity: 1;
+            transform: translateY(0);}.azs-input-wrapper{display: flex;
+            align-items: center;
+            margin-top: 4px;}.azs-hint{cursor: pointer;
+            color: white;
+            background-color: #b91c1c;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-left: 8px;
+            flex-shrink: 0;}.azs-hint-text{text-align: left;
+            background-color: #ffffff;
+            border: 1px solid #000000;
+            padding: 8px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 4px;
+            font-size: 0.875rem;
+            color: #6b7280;}.azs-hint-text.azs-hidden{display: none;}.azs-range-wrapper{display: flex;
+            align-items: center;
+            margin-top: 4px;}.azs-range{width: 100%;
+            margin: 0;
+            padding: 0;
+            -webkit-appearance: none;
+            height: 8px;
+            background: linear-gradient(to right, #b91c1c 0%, #b91c1c var(--fill-percent, 0%), #e0e0e0 var(--fill-percent, 0%), #e0e0e0 100%);
+            border-radius: 4px;
+            outline: none;}.azs-range::-webkit-slider-thumb{-webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #b91c1c;
+            border-radius: 50%;
+            cursor: pointer;}.azs-range::-moz-range-thumb{width: 24px;
+            height: 24px;
+            background: #b91c1c;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;}.azs-slider-value{margin-left: 8px;
+            font-weight: bold;
+            color: #b91c1c;
+            min-width: 40px;}.azs-subfield{margin-top: 16px;}.azs-buttons{display: flex;
+            gap: 16px;
+            margin-top: 16px;
+            flex-wrap: wrap;}.azs-button{padding: 12px 24px;
+            border-radius: 6px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s, transform 0.2s;}.azs-button:hover{transform: scale(1.05);}.azs-button-primary{background-color: #b91c1c;
+            color: white;}.azs-button-primary:hover{background-color: #991b1b;}.azs-button-secondary{background-color: #000000;
+            color: white;}.azs-button-secondary:hover{background-color: #374151;}.azs-result{margin-top: 16px;
+            font-size: 1.125rem;
+            color: #000000;
+            opacity: 0;
+            transform: translateY(10px) scale(0.98);
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;}.azs-result.azs-visible{opacity: 1;
+            transform: translateY(0) scale(1);}.azs-result h3{font-weight: 600;
+            margin-bottom: 8px;}.azs-result ul{list-style-type: disc;
+            padding-left: 20px;}.azs-result li{margin-bottom: 4px;}.azs-result .azs-result-main{font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 16px;}.azs-error{color: #dc2626;}.azs-input-error{border-color: #dc2626;}/* Адаптивность */
+        @media (max-width: 768px){.azs-main-title{font-size: 2rem;}.azs-section-title{font-size: 1.5rem;}.azs-buttons{flex-direction: column;}}@media (max-width: 480px){.azs-main-title{font-size: 1.5rem;}.azs-section-title{font-size: 1.25rem;}.azs-input, .azs-select{font-size: 0.875rem; padding: 8px;}.azs-button{padding: 10px 16px;}.azs-section, .azs-field, .azs-subfield, .azs-result{transition-duration: 0.25s;}}/* Added animation for input fields */
+        .azs-input, .azs-select, .azs-range{opacity: 0;
+            transform: scale(0.9);
+            animation: fadeIn 0.7s ease-in-out forwards;}@keyframes fadeIn{from{opacity: 0;
+                transform: scale(0.9);}to{opacity: 1;
+                transform: scale(1);}}</style>
+</head>
+<body>
+    <div class="azs-calculator-container">
+        <h1 class="azs-main-title">Рассчитаем зарплату на АЗС вместе!</h1>
+
+        <!-- Выбор должности -->
+        <div class="azs-position-selector">
+            <label class="azs-label">Выбери должность, дружище</label>
+            <select id="azs_position_select" class="azs-select">
+                <option value="manager">Заместитель директора/Менеджер</option>
+                <option value="cashier">Кассир</option>
+                <option value="cook">Повар</option>
+            </select>
+        </div>
+
+        <!-- Заместитель директора/Менеджер -->
+        <div id="azs_manager_section" class="azs-section">
+            <h2 class="azs-section-title">Заместитель директора/Менеджер</h2>
+            <div class="azs-fields-grid">
+                <div id="azs_manager_field1" class="azs-field">
+                    <label class="azs-label">Товарооборот за период (ТО), руб.</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_manager_to_base" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_manager_to_base_hint')">?</span>
+                    </div>
+                    <p id="azs_manager_to_base_hint" class="azs-hint-text azs-hidden">Общий оборот за период в рублях. Введите положительное число.</p>
+                </div>
+                <div id="azs_manager_field2" class="azs-field" style="display: none;">
+                    <label class="azs-label">Выполнение плана продаж, %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_manager_to" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_manager_to_hint')">?</span>
+                    </div>
+                    <p id="azs_manager_to_hint" class="azs-hint-text azs-hidden">Процент выполнения плана продаж (от 0% и выше).</p>
+                </div>
+                <div id="azs_manager_field3" class="azs-field" style="display: none;">
+                    <label class="azs-label">Была ли проверка чек-листа технолога?</label>
+                    <select id="azs_manager_chltech_check" class="azs-select">
+                        <option value="">Выберите</option>
+                        <option value="yes">Да</option>
+                        <option value="no">Нет/Не знаю</option>
+                    </select>
+                    <div id="azs_manager_chltech_input" class="azs-subfield" style="display: none;">
+                        <label class="azs-label">Результат чек-листа технолога (ЧЛтех), %</label>
+                        <div class="azs-input-wrapper">
+                            <input type="number" id="azs_manager_chltech" class="azs-input">
+                            <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_manager_chltech_hint')">?</span>
+                        </div>
+                        <p id="azs_manager_chltech_hint" class="azs-hint-text azs-hidden">Процент выполнения чек-листа технолога (от 0% до 100%).</p>
+                    </div>
+                </div>
+                <div id="azs_manager_field4" class="azs-field" style="display: none;">
+                    <label class="azs-label">Была ли проверка ТП?</label>
+                    <select id="azs_manager_tp_check" class="azs-select">
+                        <option value="">Выберите</option>
+                        <option value="yes">Да</option>
+                        <option value="no">Нет/Не знаю</option>
+                    </select>
+                    <div id="azs_manager_ik_input" class="azs-subfield" style="display: none;">
+                        <label class="azs-label">Индекс качества ТП и ОВК (ИК), %</label>
+                        <div class="azs-input-wrapper">
+                            <input type="number" id="azs_manager_ik" class="azs-input">
+                            <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_manager_ik_hint')">?</span>
+                        </div>
+                        <p id="azs_manager_ik_hint" class="azs-hint-text azs-hidden">Индекс качества ТП и ОВК в процентах (от 0% до 100%).</p>
+                    </div>
+                </div>
+                <div id="azs_manager_field5" class="azs-field" style="display: none;">
+                    <label class="azs-label">Скорость обслуживания, %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_manager_speed" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_manager_speed_hint')">?</span>
+                    </div>
+                    <p id="azs_manager_speed_hint" class="azs-hint-text azs-hidden">Процент скорости обслуживания (от 0% до 100%).</p>
+                </div>
+                <div id="azs_manager_field6" class="azs-field" style="display: none;">
+                    <label class="azs-label">Сколько было обращений клиентов?</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_manager_complaints" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_manager_complaints_hint')">?</span>
+                    </div>
+                    <p id="azs_manager_complaints_hint" class="azs-hint-text azs-hidden">Количество обращений (жалоб). Введите неотрицательное число.</p>
+                </div>
+                <div id="azs_manager_field7" class="azs-field" style="display: none;">
+                    <label class="azs-label">HR индекс, %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_manager_hr" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_manager_hr_hint')">?</span>
+                    </div>
+                    <p id="azs_manager_hr_hint" class="azs-hint-text azs-hidden">HR индекс в процентах (от 0% до 100%).</p>
+                </div>
+                <div id="azs_manager_field8" class="azs-field" style="display: none;">
+                    <label class="azs-label">Сколько заместителей директоров?</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="1" id="azs_manager_num_deputies" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_manager_num_deputies_hint')">?</span>
+                    </div>
+                    <p id="azs_manager_num_deputies_hint" class="azs-hint-text azs-hidden">Количество заместителей директоров. Введите целое положительное число.</p>
+                </div>
+            </div>
+            <div class="azs-buttons">
+                <button onclick="AZSCalculator.calculateSalary('manager')" class="azs-button azs-button-primary">Давай посчитаем!</button>
+                <button onclick="AZSCalculator.copyManagerResults()" class="azs-button azs-button-secondary">Копировать результаты</button>
+            </div>
+            <div id="azs_manager_result" class="azs-result"></div>
+        </div>
+
+        <!-- Кассир -->
+        <div id="azs_cashier_section" class="azs-section">
+            <h2 class="azs-section-title">Кассир</h2>
+            <div class="azs-fields-grid">
+                <div id="azs_cashier_field1" class="azs-field">
+                    <label class="azs-label">Часовая ставка, руб.</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_cashier_rate" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cashier_rate_hint')">?</span>
+                    </div>
+                    <p id="azs_cashier_rate_hint" class="azs-hint-text azs-hidden">Часовая ставка в рублях. Введите положительное число.</p>
+                </div>
+                <div id="azs_cashier_field2" class="azs-field" style="display: none;">
+                    <label class="azs-label">Сколько часов отработал сотрудник?</label>
+                    <div class="azs-range-wrapper">
+                        <input type="range" min="1" max="24" step="0.5" value="1" id="azs_cashier_hours_employee" class="azs-range">
+                        <span class="azs-slider-value" id="azs_cashier_hours_employee_value">1ч</span>
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cashier_hours_employee_hint')">?</span>
+                    </div>
+                    <p id="azs_cashier_hours_employee_hint" class="azs-hint-text azs-hidden">Количество отработанных часов сотрудником. Выберите от 1 до 24 часов.</p>
+                </div>
+                <div id="azs_cashier_field3" class="azs-field" style="display: none;">
+                    <label class="azs-label">Сколько часов длилась смена</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_cashier_hours_shift" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cashier_hours_shift_hint')">?</span>
+                    </div>
+                    <p id="azs_cashier_hours_shift_hint" class="azs-hint-text azs-hidden">Общее количество часов в смене. Введите положительное число.</p>
+                </div>
+                <div id="azs_cashier_field4" class="azs-field" style="display: none;">
+                    <label class="azs-label">Товарооборот за период (ТО), руб.</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_cashier_to_base" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cashier_to_base_hint')">?</span>
+                    </div>
+                    <p id="azs_cashier_to_base_hint" class="azs-hint-text azs-hidden">Общий оборот за период в рублях. Введите положительное число.</p>
+                </div>
+                <div id="azs_cashier_field5" class="azs-field" style="display: none;">
+                    <label class="azs-label">Выполнение плана продаж, %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_cashier_to" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cashier_to_hint')">?</span>
+                    </div>
+                    <p id="azs_cashier_to_hint" class="azs-hint-text azs-hidden">Процент выполнения плана продаж (от 0% и выше).</p>
+                </div>
+                <div id="azs_cashier_field6" class="azs-field" style="display: none;">
+                    <label class="azs-label">Была ли проверка чек-листа технолога?</label>
+                    <select id="azs_cashier_chltech_check" class="azs-select">
+                        <option value="">Выберите</option>
+                        <option value="yes">Да</option>
+                        <option value="no">Нет/Не знаю</option>
+                    </select>
+                    <div id="azs_cashier_chltech_input" class="azs-subfield" style="display: none;">
+                        <label class="azs-label">Результат чек-листа технолога (ЧЛтех), %</label>
+                        <div class="azs-input-wrapper">
+                            <input type="number" id="azs_cashier_chltech" class="azs-input">
+                            <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cashier_chltech_hint')">?</span>
+                        </div>
+                        <p id="azs_cashier_chltech_hint" class="azs-hint-text azs-hidden">Процент выполнения чек-листа технолога (от 0% до 100%).</p>
+                    </div>
+                </div>
+                <div id="azs_cashier_field7" class="azs-field" style="display: none;">
+                    <label class="azs-label">Была ли проверка ТП?</label>
+                    <select id="azs_cashier_tp_check" class="azs-select">
+                        <option value="">Выберите</option>
+                        <option value="yes">Да</option>
+                        <option value="no">Нет/Не знаю</option>
+                    </select>
+                    <div id="azs_cashier_ik_input" class="azs-subfield" style="display: none;">
+                        <label class="azs-label">Индекс качества ТП и ОВК (ИК), %</label>
+                        <div class="azs-input-wrapper">
+                            <input type="number" id="azs_cashier_ik" class="azs-input">
+                            <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cashier_ik_hint')">?</span>
+                        </div>
+                        <p id="azs_cashier_ik_hint" class="azs-hint-text azs-hidden">Индекс качества ТП и ОВК в процентах (от 0% до 100%).</p>
+                    </div>
+                </div>
+                <div id="azs_cashier_field8" class="azs-field" style="display: none;">
+                    <label class="azs-label">Количество жалоб клиентов</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_cashier_complaints" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cashier_complaints_hint')">?</span>
+                    </div>
+                    <p id="azs_cashier_complaints_hint" class="azs-hint-text azs-hidden">Количество жалоб. Введите неотрицательное число.</p>
+                </div>
+                <div id="azs_cashier_field9" class="azs-field" style="display: none;">
+                    <label class="azs-label">Выполнение плана по продажам кофе, %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_cashier_coffee" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cashier_coffee_hint')">?</span>
+                    </div>
+                    <p id="azs_cashier_coffee_hint" class="azs-hint-text azs-hidden">Процент выполнения плана по продажам кофе (от 0% и выше).</p>
+                </div>
+                <div id="azs_cashier_field10" class="azs-field" style="display: none;">
+                    <label class="azs-label">Проникновение моб. приложения через кассы ПКО (МПкафе), %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_cashier_mpcafe" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cashier_mpcafe_hint')">?</span>
+                    </div>
+                    <p id="azs_cashier_mpcafe_hint" class="azs-hint-text azs-hidden">Процент проникновения мобильного приложения через кассы ПКО (от 0% до 100%).</p>
+                </div>
+                <div id="azs_cashier_field11" class="azs-field" style="display: none;">
+                    <label class="azs-label">Плановый показатель МП, %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_cashier_plan_mb" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cashier_plan_mb_hint')">?</span>
+                    </div>
+                    <p id="azs_cashier_plan_mb_hint" class="azs-hint-text azs-hidden">Плановый процент на МБ (от 0% до 100%).</p>
+                </div>
+            </div>
+            <div class="azs-buttons">
+                <button onclick="AZSCalculator.calculateSalary('cashier')" class="azs-button azs-button-primary">Давай посчитаем!</button>
+                <button onclick="AZSCalculator.copyCashierResults()" class="azs-button azs-button-secondary">Копировать результаты</button>
+            </div>
+            <div id="azs_cashier_result" class="azs-result"></div>
+        </div>
+
+        <!-- Повар -->
+        <div id="azs_cook_section" class="azs-section">
+            <h2 class="azs-section-title">Повар</h2>
+            <div class="azs-fields-grid">
+                <div id="azs_cook_field1" class="azs-field">
+                    <label class="azs-label">Часовая ставка, руб.</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_cook_rate" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cook_rate_hint')">?</span>
+                    </div>
+                    <p id="azs_cook_rate_hint" class="azs-hint-text azs-hidden">Часовая ставка в рублях. Введите положительное число.</p>
+                </div>
+                <div id="azs_cook_field2" class="azs-field" style="display: none;">
+                    <label class="azs-label">Сколько часов отработал сотрудник?</label>
+                    <div class="azs-range-wrapper">
+                        <input type="range" min="1" max="24" step="0.5" value="1" id="azs_cook_hours_employee" class="azs-range">
+                        <span class="azs-slider-value" id="azs_cook_hours_employee_value">1ч</span>
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cook_hours_employee_hint')">?</span>
+                    </div>
+                    <p id="azs_cook_hours_employee_hint" class="azs-hint-text azs-hidden">Количество отработанных часов сотрудником. Выберите от 1 до 24 часов.</p>
+                </div>
+                <div id="azs_cook_field3" class="azs-field" style="display: none;">
+                    <label class="azs-label">Сколько часов длилась смена</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_cook_hours_shift" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cook_hours_shift_hint')">?</span>
+                    </div>
+                    <p id="azs_cook_hours_shift_hint" class="azs-hint-text azs-hidden">Общее количество часов в смене. Введите положительное число.</p>
+                </div>
+                <div id="azs_cook_field4" class="azs-field" style="display: none;">
+                    <label class="azs-label">Товарооборот за период (ТО), руб.</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_cook_to_base" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cook_to_base_hint')">?</span>
+                    </div>
+                    <p id="azs_cook_to_base_hint" class="azs-hint-text azs-hidden">Общий оборот за период в рублях. Введите положительное число.</p>
+                </div>
+                <div id="azs_cook_field5" class="azs-field" style="display: none;">
+                    <label class="azs-label">Выполнение плана продаж, %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_cook_to" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cook_to_hint')">?</span>
+                    </div>
+                    <p id="azs_cook_to_hint" class="azs-hint-text azs-hidden">Процент выполнения плана продаж (от 0% и выше).</p>
+                </div>
+                <div id="azs_cook_field6" class="azs-field" style="display: none;">
+                    <label class="azs-label">Была ли проверка чек-листа технолога?</label>
+                    <select id="azs_cook_chltech_check" class="azs-select">
+                        <option value="">Выберите</option>
+                        <option value="yes">Да</option>
+                        <option value="no">Нет/Не знаю</option>
+                    </select>
+                    <div id="azs_cook_chltech_input" class="azs-subfield" style="display: none;">
+                        <label class="azs-label">Результат чек-листа технолога (ЧЛтех), %</label>
+                        <div class="azs-input-wrapper">
+                            <input type="number" id="azs_cook_chltech" class="azs-input">
+                            <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cook_chltech_hint')">?</span>
+                        </div>
+                        <p id="azs_cook_chltech_hint" class="azs-hint-text azs-hidden">Процент выполнения чек-листа технолога (от 0% до 100%).</p>
+                    </div>
+                </div>
+                <div id="azs_cook_field7" class="azs-field" style="display: none;">
+                    <label class="azs-label">Была ли проверка ТП?</label>
+                    <select id="azs_cook_tp_check" class="azs-select">
+                        <option value="">Выберите</option>
+                        <option value="yes">Да</option>
+                        <option value="no">Нет/Не знаю</option>
+                    </select>
+                    <div id="azs_cook_ik_input" class="azs-subfield" style="display: none;">
+                        <label class="azs-label">Индекс качества ТП и ОВК (ИК), %</label>
+                        <div class="azs-input-wrapper">
+                            <input type="number" id="azs_cook_ik" class="azs-input">
+                            <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cook_ik_hint')">?</span>
+                        </div>
+                        <p id="azs_cook_ik_hint" class="azs-hint-text azs-hidden">Индекс качества ТП и ОВК в процентах (от 0% до 100%).</p>
+                    </div>
+                </div>
+                <div id="azs_cook_field8" class="azs-field" style="display: none;">
+                    <label class="azs-label">Количество жалоб клиентов</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_cook_complaints" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cook_complaints_hint')">?</span>
+                    </div>
+                    <p id="azs_cook_complaints_hint" class="azs-hint-text azs-hidden">Количество жалоб. Введите неотрицательное число.</p>
+                </div>
+                <div id="azs_cook_field9" class="azs-field" style="display: none;">
+                    <label class="azs-label">Выполнение плана по продажам кофе, %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_cook_coffee" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cook_coffee_hint')">?</span>
+                    </div>
+                    <p id="azs_cook_coffee_hint" class="azs-hint-text azs-hidden">Процент выполнения плана по продажам кофе (от 0% и выше).</p>
+                </div>
+                <div id="azs_cook_field10" class="azs-field" style="display: none;">
+                    <label class="azs-label">Проникновение моб. приложения через кассы ПКО (МПкафе), %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_cook_mpcafe" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cook_mpcafe_hint')">?</span>
+                    </div>
+                    <p id="azs_cook_mpcafe_hint" class="azs-hint-text azs-hidden">Процент проникновения мобильного приложения через кассы ПКО (от 0% до 100%).</p>
+                </div>
+                <div id="azs_cook_field11" class="azs-field" style="display: none;">
+                    <label class="azs-label">Плановый показатель МП, %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_cook_plan_mb" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_cook_plan_mb_hint')">?</span>
+                    </div>
+                    <p id="azs_cook_plan_mb_hint" class="azs-hint-text azs-hidden">Плановый процент на МБ (от 0% до 100%).</p>
+                </div>
+            </div>
+            <div class="azs-buttons">
+                <button onclick="AZSCalculator.calculateSalary('cook')" class="azs-button azs-button-primary">Давай посчитаем!</button>
+                <button onclick="AZSCalculator.copyCookResults()" class="azs-button azs-button-secondary">Копировать результаты</button>
+            </div>
+            <div id="azs_cook_result" class="azs-result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Защищенный объект для предотвращения конфликтов с Битрикс24
+        window.AZSCalculator = (function(){'use strict';
+            
+            // Приватные переменные
+            var listeners ={};
+            var isInitialized = false;
+
+            // Универсальная функция получения элемента
+            function getElement(id){return document.getElementById(id);}// Функция для переключения видимости подсказки
+            function toggleHint(id){var element = getElement(id);
+                if (element){if (element.classList.contains('azs-hidden')){element.classList.remove('azs-hidden');}else{element.classList.add('azs-hidden');}}}// Функция для обновления заполнения ползунка
+            function updateRangeFill(input){var percent = ((input.value - input.min) / (input.max - input.min)) * 100;
+                input.style.setProperty('--fill-percent', percent + '%');}// Очистка слушателей для секции
+            function clearFieldListeners(section){if (listeners[section]){listeners[section].forEach(function(item){if (item.input && item.handler){item.input.removeEventListener('input', item.handler);
+                            item.input.removeEventListener('change', item.handler);}});
+                    listeners[section]=[];}}// Инициализация последовательного показа полей
+            function initSequentialFields(section){var fieldCount = section === 'manager' ? 8 : 11;
+                
+                // Скрываем все поля, кроме первого
+                for (var i = 2; i <= fieldCount; i++){var field = getElement('azs_' + section + '_field' + i);
+                    if (field){field.style.display = 'none';
+                        field.classList.remove('azs-visible');}}// Показываем первое поле
+                var firstField = getElement('azs_' + section + '_field1');
+                if (firstField){firstField.style.display = 'block';
+                    firstField.classList.add('azs-visible');}// Скрываем подполя
+                var chlInput = getElement('azs_' + section + '_chltech_input');
+                var ikInput = getElement('azs_' + section + '_ik_input');
+                if (chlInput){chlInput.style.display = 'none';
+                    chlInput.classList.remove('azs-visible');}if (ikInput){ikInput.style.display = 'none';
+                    ikInput.classList.remove('azs-visible');}addFieldListeners(section, fieldCount);
+                addCheckListeners(section);}// Добавление слушателей для полей
+            function addFieldListeners(section, fieldCount){listeners[section]= listeners[section]||[];
+
+                for (var i = 1; i < fieldCount; i++){var currentField = getElement('azs_' + section + '_field' + i);
+                    var currentInput = currentField ? currentField.querySelector('input') : null;
+
+                    if (currentInput){(function(input, nextIndex){var handler = function(){var value = input.value.trim();
+                                if (value !== '' && parseFloat(value) >= 0){var nextField = getElement('azs_' + section + '_field' + nextIndex);
+                                    if (nextField){nextField.style.display = 'block';
+                                        nextField.classList.add('azs-visible');}}};
+                            input.addEventListener('input', handler);
+                            listeners[section].push({input: input, handler: handler});})(currentInput, i + 1);}}}// Добавление слушателей для селектов проверок
+            function addCheckListeners(section){var chlSelect = getElement('azs_' + section + '_chltech_check');
+                if (chlSelect){var handler = function(){var value = chlSelect.value;
+                        var inputDiv = getElement('azs_' + section + '_chltech_input');
+                        var nextFieldNum = section === 'manager' ? 4 : 7;
+                        var nextField = getElement('azs_' + section + '_field' + nextFieldNum);
+                        
+                        if (value === 'yes'){inputDiv.style.display = 'block';
+                            inputDiv.classList.add('azs-visible');}else if (value === 'no'){inputDiv.style.display = 'none';
+                            inputDiv.classList.remove('azs-visible');
+                            if (nextField){nextField.style.display = 'block';
+                                nextField.classList.add('azs-visible');}}};
+                    chlSelect.addEventListener('change', handler);
+                    listeners[section].push({input: chlSelect, handler: handler});}var tpSelect = getElement('azs_' + section + '_tp_check');
+                if (tpSelect){var handler = function(){var value = tpSelect.value;
+                        var inputDiv = getElement('azs_' + section + '_ik_input');
+                        var nextFieldNum = section === 'manager' ? 5 : 8;
+                        var nextField = getElement('azs_' + section + '_field' + nextFieldNum);
+                        
+                        if (value === 'yes'){inputDiv.style.display = 'block';
+                            inputDiv.classList.add('azs-visible');}else if (value === 'no'){inputDiv.style.display = 'none';
+                            inputDiv.classList.remove('azs-visible');
+                            if (nextField){nextField.style.display = 'block';
+                                nextField.classList.add('azs-visible');}}};
+                    tpSelect.addEventListener('change', handler);
+                    listeners[section].push({input: tpSelect, handler: handler});}}function resetBorders(section){var inputs = document.querySelectorAll('#azs_' + section + 'section .azs-input, #azs' + section + '_section .azs-select');
+                for (var i = 0; i < inputs.length; i++){inputs[i].classList.remove('azs-input-error');}}function validateInputs(section, fields){var hasError = false;
+                
+                fields.forEach(function(fieldId){var input = getElement('azs_' + fieldId);
+                    if (input){var value = input.value.trim();
+                        if (value === '' || (input.type === 'number' && parseFloat(value) < 0)){hasError = true;
+                            input.classList.add('azs-input-error');}}});
+
+                var chlCheck = getElement('azs_' + section + '_chltech_check');
+                var tpCheck = getElement('azs_' + section + '_tp_check');
+
+                if (chlCheck && chlCheck.value === ''){hasError = true;
+                    chlCheck.classList.add('azs-input-error');}else if (chlCheck && chlCheck.value === 'yes'){var chlInput = getElement('azs_' + section + '_chltech');
+                    if (chlInput){var chlValue = chlInput.value.trim();
+                        if (chlValue === '' || parseFloat(chlValue) < 0){hasError = true;
+                            chlInput.classList.add('azs-input-error');}}}if (tpCheck && tpCheck.value === ''){hasError = true;
+                    tpCheck.classList.add('azs-input-error');}else if (tpCheck && tpCheck.value === 'yes'){var ikInput = getElement('azs_' + section + '_ik');
+                    if (ikInput){var ikValue = ikInput.value.trim();
+                        if (ikValue === '' || parseFloat(ikValue) < 0){hasError = true;
+                            ikInput.classList.add('azs-input-error');}}}return hasError;}const configs ={manager:{fields:['manager_to_base', 'manager_to', 'manager_speed', 'manager_complaints', 'manager_hr', 'manager_num_deputies'],
+                    coeffs:{TO: percent => percent < 90 ? 0.003 : percent < 100 ? 0.006 : 0.009,
+                        chltech: percent => percent < 85 ? 0 : percent < 90 ? 0.5 : percent < 95 ? 1 : 1.25,
+                        ik: percent => percent < 85 ? 0 : percent < 90 ? 0.75 : percent < 95 ? 1 : 1.25,
+                        speed: percent => percent < 95 ? 0 : percent < 100 ? 1 : 1.25,
+                        complaints: count => count >= 4 ? 0.75 : count >= 2 ? 1 : 1.25,
+                        hr: percent => percent <= 90 ? 1 : 1.5},
+                    numCoeffs: 5},
+                cashier:{fields:['cashier_rate', 'cashier_hours_employee', 'cashier_hours_shift', 'cashier_to_base', 'cashier_to', 'cashier_complaints', 'cashier_coffee', 'cashier_mpcafe', 'cashier_plan_mb'],
+                    coeffs:{TO: percent => percent < 100 ? 0.007 : 0.015,
+                        chltech: percent => percent < 85 ? 0.5 : percent < 95 ? 1 : 2,
+                        ik: percent => percent < 80 ? 0.5 : percent < 95 ? 1 : 2,
+                        complaints: count => count === 0 ? 1 : 0.5,
+                        coffee: percent => percent < 100 ? 1 : 1.4,
+                        mpcafe: (percent, plan) => percent < plan ? 1 : 1.4},
+                    numCoeffs: 6},
+                cook:{fields:['cook_rate', 'cook_hours_employee', 'cook_hours_shift', 'cook_to_base', 'cook_to', 'cook_complaints', 'cook_coffee', 'cook_mpcafe', 'cook_plan_mb'],
+                    coeffs:{TO: percent => percent < 100 ? 0.005 : 0.01,
+                        chltech: percent => percent < 85 ? 0.5 : percent < 95 ? 1 : 2,
+                        ik: percent => percent < 80 ? 0.5 : percent < 95 ? 1 : 2,
+                        complaints: count => count === 0 ? 1 : 0.5,
+                        coffee: percent => percent < 100 ? 1 : 1.4,
+                        mpcafe: (percent, plan) => percent < plan ? 1 : 1.4},
+                    numCoeffs: 6}};
+            function calculateSalary(section){resetBorders(section);
+                var config = configs[section];
+                var fields = config.fields;
+                var resultDiv = getElement('azs_' + section + '_result');
+                
+                if (!resultDiv) return;
+                
+                resultDiv.classList.remove('azs-visible');
+                // Force reflow to apply the hidden state
+                let _ = resultDiv.offsetHeight;
+
+                if (validateInputs(section, fields)){resultDiv.innerHTML = '<p class="azs-error">Пожалуйста, перепроверьте введенные данные. Поля не могут быть пустыми или отрицательными.</p>';
+                    // Use setTimeout to ensure transition triggers
+                    setTimeout(function(){resultDiv.classList.add('azs-visible');}, 0);
+                    return;}var inputs ={};
+                fields.forEach(function(fieldId){inputs[fieldId]= parseFloat(getElement('azs_' + fieldId).value);});
+                var chltech_check = getElement('azs_' + section + '_chltech_check').value;
+                var chltech_percent, coeff_chltech;
+                if (chltech_check === 'no'){coeff_chltech = 1;
+                    chltech_percent = 'Не проверялось';}else{chltech_percent = parseFloat(getElement('azs_' + section + '_chltech').value);
+                    coeff_chltech = config.coeffs.chltech(chltech_percent);}var tp_check = getElement('azs_' + section + '_tp_check').value;
+                var ik_percent, coeff_ik;
+                if (tp_check === 'no'){coeff_ik = 1;
+                    ik_percent = 'Не проверялось';}else{ik_percent = parseFloat(getElement('azs_' + section + '_ik').value);
+                    coeff_ik = config.coeffs.ik(ik_percent);}if (section === 'manager'){var to_base = inputs['manager_to_base'];
+                    var to_percent = inputs['manager_to'];
+                    var speed_percent = inputs['manager_speed'];
+                    var complaints = inputs['manager_complaints'];
+                    var hr_percent = inputs['manager_hr'];
+                    var num_deputies = inputs['manager_num_deputies'];
+                    var coeff_TO = config.coeffs.TO(to_percent);
+                    var coeff_speed = config.coeffs.speed(speed_percent);
+                    var coeff_complaints = config.coeffs.complaints(complaints);
+                    var coeff_hr = config.coeffs.hr(hr_percent);
+                    var average = (coeff_chltech + coeff_ik + coeff_speed + coeff_complaints + coeff_hr) / config.numCoeffs;
+                    var to_with_coeff = to_base * coeff_TO;
+                    var kpi = (to_with_coeff * average) / num_deputies;
+
+                    var chltech_text = (typeof chltech_percent === 'string') ? 
+                        'ЧЛтех: ' + chltech_percent + ', коэффициент: ' + coeff_chltech : 
+                        'ЧЛтех: ' + chltech_percent + '%, <85% → 0, 85-89% → 0.5, 90-94% → 1, ≥95% → 1.25. Итог: ' + coeff_chltech;
+                    
+                    var ik_text = (typeof ik_percent === 'string') ? 
+                        'ИК: ' + ik_percent + ', коэффициент: ' + coeff_ik : 
+                        'ИК: ' + ik_percent + '%, <85% → 0, 85-89% → 0.75, 90-94% → 1, ≥95% → 1.25. Итог: ' + coeff_ik;
+
+                    resultDiv.innerHTML = 
+                        '<h3>Результат:</h3>' +
+                        '<p class="azs-result-main">Премия на сотрудника (KPI): ' + kpi.toFixed(2) + 'руб.</p>' +
+                        '<h3>Как считали:</h3>' +
+                        '<ul>' +
+                        '<li>ТО: ' + to_base + 'руб., <90% → 0.003, 90-99% → 0.006, ≥100% → 0.009. Итог: ' + coeff_TO + '</li>' +
+                        '<li>ТО с коэффициентом: ' + to_base + '× ' + coeff_TO + '= ' + to_with_coeff.toFixed(2) + 'руб.</li>' +
+                        '<li>' + chltech_text + '</li>' +
+                        '<li>' + ik_text + '</li>' +
+                        '<li>Скорость: ' + speed_percent + '%, <95% → 0, 95-99% → 1, ≥100% → 1.25. Итог: ' + coeff_speed + '</li>' +
+                        '<li>Обращения: ' + complaints + ', ≥4 → 0.75, 2-3 → 1, <2 → 1.25. Итог: ' + coeff_complaints + '</li>' +
+                        '<li>HR: ' + hr_percent + '%, ≤90% → 1, >90% → 1.5. Итог: ' + coeff_hr + '</li>' +
+                        '<li>Среднее коэффициентов: (' + coeff_chltech + '+ ' + coeff_ik + '+ ' + coeff_speed + '+ ' + coeff_complaints + '+ ' + coeff_hr + ') / 5 = ' + average.toFixed(2) + '</li>' +
+                        '<li>KPI: (' + to_with_coeff.toFixed(2) + '× ' + average.toFixed(2) + ') / ' + num_deputies + '= ' + kpi.toFixed(2) + 'руб.</li>' +
+                        '</ul>';}else{var rate = inputs[section + '_rate'];
+                    var hours_employee = inputs[section + '_hours_employee'];
+                    var hours_shift = inputs[section + '_hours_shift'];
+                    var to_base = inputs[section + '_to_base'];
+                    var to_percent = inputs[section + '_to'];
+                    var complaints = inputs[section + '_complaints'];
+                    var coffee_percent = inputs[section + '_coffee'];
+                    var mpcafe_percent = inputs[section + '_mpcafe'];
+                    var plan_mb_percent = inputs[section + '_plan_mb'];
+                    var coeff_TO = config.coeffs.TO(to_percent);
+                    var coeff_compl = config.coeffs.complaints(complaints);
+                    var coeff_coffee = config.coeffs.coffee(coffee_percent);
+                    var coeff_mp = config.coeffs.mpcafe(mpcafe_percent, plan_mb_percent);
+                    var kb = to_base * coeff_TO;
+                    var oofsm = kb * coeff_chltech * coeff_ik * coeff_compl * coeff_coffee * coeff_mp;
+                    var employee_bonus = oofsm / hours_shift * hours_employee;
+                    var total_per_shift = employee_bonus + (hours_employee * rate);
+
+                    var chltech_text = (typeof chltech_percent === 'string') ? 
+                        'ЧЛтех: ' + chltech_percent + ', коэффициент: ' + coeff_chltech : 
+                        'ЧЛтех: ' + chltech_percent + '%, <85% → 0.5, 85-94% → 1, ≥95% → 2. Итог: ' + coeff_chltech;
+                    
+                    var ik_text = (typeof ik_percent === 'string') ? 
+                        'ИК: ' + ik_percent + ', коэффициент: ' + coeff_ik : 
+                        'ИК: ' + ik_percent + '%, <80% → 0.5, 80-94% → 1, ≥95% → 2. Итог: ' + coeff_ik;
+
+                    var coeff_TO_text = section === 'cashier' ? '<100% → 0.007, ≥100% → 0.015' : '<100% → 0.005, ≥100% → 0.01';
+
+                    resultDiv.innerHTML = 
+                        '<h3>Результат:</h3>' +
+                        '<p class="azs-result-main">Общий фонд премии на смену (ООФсм): ' + oofsm.toFixed(2) + 'руб.</p>' +
+                        '<p class="azs-result-main">Премия на сотрудника: ' + employee_bonus.toFixed(2) + 'руб.</p>' +
+                        '<p class="azs-result-main">Итого за смену: ' + total_per_shift.toFixed(2) + 'руб.</p>' +
+                        '<h3>Как считали:</h3>' +
+                        '<ul>' +
+                        '<li>ТО: ' + to_base + 'руб., ' + coeff_TO_text + '. Итог: ' + coeff_TO + '</li>' +
+                        '<li>КБ: ' + to_base + '× ' + coeff_TO + '= ' + kb.toFixed(2) + 'руб.</li>' +
+                        '<li>' + chltech_text + '</li>' +
+                        '<li>' + ik_text + '</li>' +
+                        '<li>Жалобы: ' + complaints + ', =0 → 1, ≥1 → 0.5. Итог: ' + coeff_compl + '</li>' +
+                        '<li>Кофе: ' + coffee_percent + '%, <100% → 1, ≥100% → 1.4. Итог: ' + coeff_coffee + '</li>' +
+                        '<li>МПкафе: ' + mpcafe_percent + '% (план ' + plan_mb_percent + '%), <плана → 1, ≥плана → 1.4. Итог: ' + coeff_mp + '</li>' +
+                        '<li>ООФсм: КБ × ' + coeff_chltech + ' × ' + coeff_ik + ' × ' + coeff_compl + ' × ' + coeff_coffee + ' × ' + coeff_mp + ' = ' + oofsm.toFixed(2) + 'руб.</li>' +
+                        '<li>Премия: ' + oofsm.toFixed(2) + '/ ' + hours_shift + '× ' + hours_employee + '= ' + employee_bonus.toFixed(2) + 'руб.</li>' +
+                        '<li>Итого: ' + employee_bonus.toFixed(2) + '+ (' + hours_employee + '× ' + rate + ') = ' + total_per_shift.toFixed(2) + 'руб.</li>' +
+                        '</ul>';}// Use setTimeout to ensure transition triggers for results
+                setTimeout(function(){resultDiv.classList.add('azs-visible');}, 0);}function copyManagerResults(){var to_base = getElement('azs_manager_to_base').value || 'не указано';
+                var to_percent = getElement('azs_manager_to').value || 'не указано';
+                var chltech_check = getElement('azs_manager_chltech_check').value || 'не указано';
+                var chltech_percent = chltech_check === 'yes' ? (getElement('azs_manager_chltech').value || 'не указано') : 'не проверялось';
+                var tp_check = getElement('azs_manager_tp_check').value || 'не указано';
+                var ik_percent = tp_check === 'yes' ? (getElement('azs_manager_ik').value || 'не указано') : 'не проверялось';
+                var speed_percent = getElement('azs_manager_speed').value || 'не указано';
+                var complaints = getElement('azs_manager_complaints').value || 'не указано';
+                var hr_percent = getElement('azs_manager_hr').value || 'не указано';
+                var num_deputies = getElement('azs_manager_num_deputies').value || 'не указано';
+                var resultDiv = getElement('azs_manager_result');
+                var resultsAndLogic = 'не рассчитано';
+                
+                if (resultDiv && resultDiv.innerText.includes('Результат')){resultsAndLogic = resultDiv.innerText.trim();}var text = 'ТО: ' + to_base + '\nПлан продаж (%): ' + to_percent + 
+                    '\nБыла ли проверка ЧЛтех: ' + (chltech_check === 'yes' ? 'Да' : chltech_check === 'no' ? 'Нет/Не знаю' : 'не указано') +
+                    '\nЧЛтех (%): ' + chltech_percent + 
+                    '\nБыла ли проверка ТП: ' + (tp_check === 'yes' ? 'Да' : tp_check === 'no' ? 'Нет/Не знаю' : 'не указано') +
+                    '\nИК (%): ' + ik_percent + '\nСкорость обслуживания (%): ' + speed_percent + 
+                    '\nКоличество обращений: ' + complaints + '\nHR индекс (%): ' + hr_percent + 
+                    '\nКоличество заместителей директоров: ' + num_deputies + '\n\n' + resultsAndLogic;
+
+                if (navigator.clipboard && navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){alert('Результаты скопированы!');}).catch(function(){alert('Не удалось скопировать, вот текст: \n\n' + text);});}else{alert('Скопируйте текст: \n\n' + text);}}function copyCashierResults(){var to_base = getElement('azs_cashier_to_base').value || 'не указано';
+                var to_percent = getElement('azs_cashier_to').value || 'не указано';
+                var chltech_check = getElement('azs_cashier_chltech_check').value || 'не указано';
+                var chltech_percent = chltech_check === 'yes' ? (getElement('azs_cashier_chltech').value || 'не указано') : 'не проверялось';
+                var tp_check = getElement('azs_cashier_tp_check').value || 'не указано';
+                var ik_percent = tp_check === 'yes' ? (getElement('azs_cashier_ik').value || 'не указано') : 'не проверялось';
+                var complaints = getElement('azs_cashier_complaints').value || 'не указано';
+                var coffee_percent = getElement('azs_cashier_coffee').value || 'не указано';
+                var mpcafe_percent = getElement('azs_cashier_mpcafe').value || 'не указано';
+                var plan_mb_percent = getElement('azs_cashier_plan_mb').value || 'не указано';
+                var hours_shift = getElement('azs_cashier_hours_shift').value || 'не указано';
+                var hours_employee = getElement('azs_cashier_hours_employee').value || 'не указано';
+                var rate = getElement('azs_cashier_rate').value || 'не указано';
+                var resultDiv = getElement('azs_cashier_result');
+                var resultsAndLogic = 'не рассчитано';
+                
+                if (resultDiv && resultDiv.innerText.includes('Результат')){resultsAndLogic = resultDiv.innerText.trim();}var text = 'ТО: ' + to_base + '\nПлан продаж (%): ' + to_percent + 
+                    '\nБыла ли проверка ЧЛтех: ' + (chltech_check === 'yes' ? 'Да' : chltech_check === 'no' ? 'Нет/Не знаю' : 'не указано') +
+                    '\nЧЛтех (%): ' + chltech_percent + 
+                    '\nБыла ли проверка ТП: ' + (tp_check === 'yes' ? 'Да' : tp_check === 'no' ? 'Нет/Не знаю' : 'не указано') +
+                    '\nИК (%): ' + ik_percent + '\nКоличество жалоб: ' + complaints + 
+                    '\nПлан по продажам кофе (%): ' + coffee_percent + '\nМПкафе (%): ' + mpcafe_percent + 
+                    '\nПлан на МБ (%): ' + plan_mb_percent + '\nЧасы в смене: ' + hours_shift + 
+                    '\nЧасы отработанные сотрудником: ' + hours_employee + '\nСтавка: ' + rate + '\n\n' + resultsAndLogic;
+
+                if (navigator.clipboard && navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){alert('Результаты скопированы!');}).catch(function(){alert('Не удалось скопировать, вот текст: \n\n' + text);});}else{alert('Скопируйте текст: \n\n' + text);}}function copyCookResults(){var to_base = getElement('azs_cook_to_base').value || 'не указано';
+                var to_percent = getElement('azs_cook_to').value || 'не указано';
+                var chltech_check = getElement('azs_cook_chltech_check').value || 'не указано';
+                var chltech_percent = chltech_check === 'yes' ? (getElement('azs_cook_chltech').value || 'не указано') : 'не проверялось';
+                var tp_check = getElement('azs_cook_tp_check').value || 'не указано';
+                var ik_percent = tp_check === 'yes' ? (getElement('azs_cook_ik').value || 'не указано') : 'не проверялось';
+                var complaints = getElement('azs_cook_complaints').value || 'не указано';
+                var coffee_percent = getElement('azs_cook_coffee').value || 'не указано';
+                var mpcafe_percent = getElement('azs_cook_mpcafe').value || 'не указано';
+                var plan_mb_percent = getElement('azs_cook_plan_mb').value || 'не указано';
+                var hours_shift = getElement('azs_cook_hours_shift').value || 'не указано';
+                var hours_employee = getElement('azs_cook_hours_employee').value || 'не указано';
+                var rate = getElement('azs_cook_rate').value || 'не указано';
+                var resultDiv = getElement('azs_cook_result');
+                var resultsAndLogic = 'не рассчитано';
+                
+                if (resultDiv && resultDiv.innerText.includes('Результат')){resultsAndLogic = resultDiv.innerText.trim();}var text = 'ТО: ' + to_base + '\nПлан продаж (%): ' + to_percent + 
+                    '\nБыла ли проверка ЧЛтех: ' + (chltech_check === 'yes' ? 'Да' : chltech_check === 'no' ? 'Нет/Не знаю' : 'не указано') +
+                    '\nЧЛтех (%): ' + chltech_percent + 
+                    '\nБыла ли проверка ТП: ' + (tp_check === 'yes' ? 'Да' : tp_check === 'no' ? 'Нет/Не знаю' : 'не указано') +
+                    '\nИК (%): ' + ik_percent + '\nКоличество жалоб: ' + complaints + 
+                    '\nПлан по продажам кофе (%): ' + coffee_percent + '\nМПкафе (%): ' + mpcafe_percent + 
+                    '\nПлан на МБ (%): ' + plan_mb_percent + '\nЧасы в смене: ' + hours_shift + 
+                    '\nЧасы отработанные сотрудником: ' + hours_employee + '\nСтавка: ' + rate + '\n\n' + resultsAndLogic;
+
+                if (navigator.clipboard && navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){alert('Результаты скопированы!');}).catch(function(){alert('Не удалось скопировать, вот текст: \n\n' + text);});}else{alert('Скопируйте текст: \n\n' + text);}}// Функция инициализации
+            function init(){if (isInitialized) return;
+                
+                try{// Инициализация селектора должности
+                    var positionSelect = getElement('azs_position_select');
+                    if (positionSelect){positionSelect.addEventListener('change', function(){var selected = this.value;
+                            var sections =['manager', 'cashier', 'cook'];
+
+                            // Скрываем все секции и сбрасываем данные
+                            sections.forEach(function(sec){var el = getElement('azs_' + sec + '_section');
+                                if (el){el.style.display = 'none';
+                                    el.classList.remove('azs-visible');
+                                    
+                                    // Очищаем все поля ввода
+                                    var inputs = el.querySelectorAll('input[type="number"], input[type="range"], select');
+                                    inputs.forEach(function(input){if (input.type === 'range'){input.value = 1;
+                                            var valueSpan = getElement('azs_' + sec + '_hours_employee_value');
+                                            if (valueSpan) valueSpan.textContent = '1ч';}else if (input.tagName === 'SELECT'){input.value = '';}else{input.value = '';}});
+                                    
+                                    // Очищаем результат
+                                    var result = getElement('azs_' + sec + '_result');
+                                    if (result){result.innerHTML = '';
+                                        result.classList.remove('azs-visible');}// Очищаем слушатели
+                                    clearFieldListeners('azs_' + sec);
+                                    initSequentialFields(sec);}});
+
+                            // Показываем выбранную секцию
+                            if (selected){var sec = getElement('azs_' + selected + '_section');
+                                if (sec){sec.style.display = 'block';
+                                    sec.classList.add('azs-visible');
+                                    initSequentialFields(selected);}}});}// Инициализация ползунков
+                    var ranges = document.querySelectorAll('.azs-range');
+                    ranges.forEach(function(input){updateRangeFill(input);
+                        
+                        input.addEventListener('input', function(){updateRangeFill(this);
+                            var valueSpan = getElement(this.id + '_value');
+                            if (valueSpan){var val = parseFloat(this.value);
+                                valueSpan.textContent = (val % 1 === 0 ? val.toFixed(0) : val.toFixed(1)) + 'ч';}});});
+
+                    // Валидация полей ввода
+                    var numberInputs = document.querySelectorAll('.azs-input[type="number"]');
+                    numberInputs.forEach(function(input){input.addEventListener('input', function(){if (parseFloat(this.value) < 0){this.classList.add('azs-input-error');}else{this.classList.remove('azs-input-error');}});
+
+                        input.addEventListener('keydown', function(e){var allowedKeys =['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter'];
+                            var isNumber = e.key >= '0' && e.key <= '9';
+                            var isDot = e.key === '.' && !this.value.includes('.');
+                            if (!isNumber && !isDot && !allowedKeys.includes(e.key)){e.preventDefault();}});});
+
+                    // Показываем секцию менеджера по умолчанию
+                    var defaultSec = getElement('azs_manager_section');
+                    if (defaultSec){defaultSec.style.display = 'block';
+                        defaultSec.classList.add('azs-visible');
+                        initSequentialFields('manager');}isInitialized = true;}catch (e){console.error('AZS Calculator init error:', e);}}// Публичные методы
+            return{init: init,
+                toggleHint: toggleHint,
+                calculateSalary: calculateSalary,
+                copyManagerResults: copyManagerResults,
+                copyCashierResults: copyCashierResults,
+                copyCookResults: copyCookResults};})();
+
+        // Инициализация при загрузке DOM
+        if (document.readyState === 'loading'){document.addEventListener('DOMContentLoaded', function(){window.AZSCalculator.init();});}else{window.AZSCalculator.init();}// Дополнительная инициализация для совместимости с Битрикс24
+        if (window.addEventListener){window.addEventListener('load', function(){setTimeout(function(){if (window.AZSCalculator && typeof window.AZSCalculator.init === 'function'){window.AZSCalculator.init();}}, 500);});}</script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () =>{const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user){const user = tg.initDataUnsafe.user;
+            console.log("Пользователь:", user);
+            const userBlock = document.getElementById("user-info");
+            if (userBlock){userBlock.innerText = Добро пожаловать, ${user.first_name}!;}}});
+
+    function sendSalaryData(salary, bonus){const tg = window.Telegram.WebApp;
+        tg.sendData(JSON.stringify({salary, bonus}));}</body>
+</html>
