@@ -133,6 +133,7 @@
                 <option value="cashier">Кассир</option>
                 <option value="cook">Повар</option>
                 <option value="operator">Ст. оператор-кассир, оператор-кассир, оператор мини-кафе</option>
+                <option value="gasattendant">Заправщик АГЗС, АГНКС, заправщик-бригадир, заправщик СУГ</option>
             </select>
         </div>
 
@@ -578,6 +579,83 @@
             </div>
             <div id="azs_operator_result" class="azs-result"></div>
         </div>
+
+        <!-- Заправщик АГЗС, АГНКС, заправщик-бригадир, заправщик СУГ -->
+        <div id="azs_gasattendant_section" class="azs-section">
+            <h2 class="azs-section-title">Заправщик АГЗС, АГНКС, заправщик-бригадир, заправщик СУГ</h2>
+            <div class="azs-fields-grid">
+                <div id="azs_gasattendant_field1" class="azs-field">
+                    <label class="azs-label">Сколько часов отработал сотрудник?</label>
+                    <div class="azs-range-wrapper">
+                        <input type="range" min="1" max="24" step="0.5" value="1" id="azs_gasattendant_hours_employee" class="azs-range">
+                        <span class="azs-slider-value" id="azs_gasattendant_hours_employee_value">1ч</span>
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_gasattendant_hours_employee_hint')">?</span>
+                    </div>
+                    <p id="azs_gasattendant_hours_employee_hint" class="azs-hint-text azs-hidden">Количество отработанных часов сотрудником. Выберите от 1 до 24 часов.</p>
+                </div>
+                <div id="azs_gasattendant_field2" class="azs-field" style="display: none;">
+                    <label class="azs-label">Сколько часов длилась смена</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_gasattendant_hours_shift" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_gasattendant_hours_shift_hint')">?</span>
+                    </div>
+                    <p id="azs_gasattendant_hours_shift_hint" class="azs-hint-text azs-hidden">Общее количество часов в смене. Введите положительное число.</p>
+                </div>
+                <div id="azs_gasattendant_field3" class="azs-field" style="display: none;">
+                    <label class="azs-label">Количество СОЖ</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="1" id="azs_gasattendant_sog" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_gasattendant_sog_hint')">?</span>
+                    </div>
+                    <p id="azs_gasattendant_sog_hint" class="azs-hint-text azs-hidden">Количество СОЖ. Введите целое неотрицательное число.</p>
+                </div>
+                <div id="azs_gasattendant_field4" class="azs-field" style="display: none;">
+                    <label class="azs-label">Выполнение плана пролива топлива (ТОтопл), %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_gasattendant_fuel_percent" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_gasattendant_fuel_percent_hint')">?</span>
+                    </div>
+                    <p id="azs_gasattendant_fuel_percent_hint" class="azs-hint-text azs-hidden">Процент выполнения плана пролива топлива (от 0% и выше).</p>
+                </div>
+                <div id="azs_gasattendant_field5" class="azs-field" style="display: none;">
+                    <label class="azs-label">Была ли проверка тайного покупателя (ТП)?</label>
+                    <select id="azs_gasattendant_tp_check" class="azs-select">
+                        <option value="">Выберите</option>
+                        <option value="yes">Да</option>
+                        <option value="no">Нет/Не знаю</option>
+                    </select>
+                    <div id="azs_gasattendant_ik_input" class="azs-subfield" style="display: none;">
+                        <label class="azs-label">Результат проверки ТП, %</label>
+                        <div class="azs-input-wrapper">
+                            <input type="number" id="azs_gasattendant_ik" class="azs-input">
+                            <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_gasattendant_ik_hint')">?</span>
+                        </div>
+                        <p id="azs_gasattendant_ik_hint" class="azs-hint-text azs-hidden">Процент результата проверки тайного покупателя (от 0% и выше).</p>
+                    </div>
+                </div>
+                <div id="azs_gasattendant_field6" class="azs-field" style="display: none;">
+                    <label class="azs-label">Количество отрывов газораздаточного крана</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="1" id="azs_gasattendant_tearoffs" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_gasattendant_tearoffs_hint')">?</span>
+                    </div>
+                    <p id="azs_gasattendant_tearoffs_hint" class="azs-hint-text azs-hidden">Количество отрывов газораздаточного крана. Введите неотрицательное число.</p>
+                </div>
+                <div id="azs_gasattendant_field7" class="azs-field" style="display: none;">
+                    <label class="azs-label">Количество подтвержденных отрицательных обращений</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="1" id="azs_gasattendant_complaints" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_gasattendant_complaints_hint')">?</span>
+                    </div>
+                    <p id="azs_gasattendant_complaints_hint" class="azs-hint-text azs-hidden">Количество подтвержденных отрицательных обращений. Введите неотрицательное число.</p>
+                </div>
+            </div>
+            <div class="azs-buttons">
+                <button onclick="AZSCalculator.calculateSalary('gasattendant')" class="azs-button azs-button-primary">Давай посчитаем!</button>
+                <button onclick="AZSCalculator.copyGasattendantResults()" class="azs-button azs-button-secondary">Копировать результаты</button>
+            </div>
+            <div id="azs_gasattendant_result" class="azs-result"></div>
+        </div>
     </div>
 
     <script>
@@ -597,7 +675,7 @@
             function clearFieldListeners(section){if (listeners[section]){listeners[section].forEach(function(item){if (item.input && item.handler){item.input.removeEventListener('input', item.handler);
                             item.input.removeEventListener('change', item.handler);}});
                     listeners[section]=[];}}// Инициализация последовательного показа полей
-            function initSequentialFields(section){var fieldCount = section === 'manager' ? 8 : section === 'operator' ? 12 : 11;
+            function initSequentialFields(section){var fieldCount = section === 'manager' ? 8 : section === 'operator' ? 12 : section === 'gasattendant' ? 7 : 11;
                 
                 // Скрываем все поля, кроме первого
                 for (var i = 2; i <= fieldCount; i++){var field = getElement('azs_' + section + '_field' + i);
@@ -638,7 +716,7 @@
                     listeners[section].push({input: chlSelect, handler: handler});}var tpSelect = getElement('azs_' + section + '_tp_check');
                 if (tpSelect){var handler = function(){var value = tpSelect.value;
                         var inputDiv = getElement('azs_' + section + '_ik_input');
-                        var nextFieldNum = section === 'manager' ? 5 : 8;
+                        var nextFieldNum = section === 'manager' ? 5 : section === 'gasattendant' ? 6 : 8;
                         var nextField = getElement('azs_' + section + '_field' + nextFieldNum);
                         
                         if (value === 'yes'){inputDiv.style.display = 'block';
@@ -700,7 +778,10 @@
                     numCoeffs: 6},
                 operator:{fields:['operator_to_nonfuel', 'operator_to_nonfuel_percent', 'operator_fuel_liters', 'operator_fuel_percent', 'operator_hours_employee', 'operator_hours_shift', 'operator_complaints', 'operator_coffee', 'operator_mp', 'operator_plan_mp'],
                     coeffs:{ik: percent => percent < 85 ? 0 : percent < 100 ? 1 : 2},
-                    numCoeffs: 5}};
+                    numCoeffs: 5},
+                gasattendant:{fields:['gasattendant_hours_employee', 'gasattendant_hours_shift', 'gasattendant_sog', 'gasattendant_fuel_percent', 'gasattendant_tearoffs', 'gasattendant_complaints'],
+                    coeffs:{ik: percent => percent < 85 ? 0 : percent < 100 ? 1 : 2},
+                    numCoeffs: 4}};
             function calculateSalary(section){resetBorders(section);
                 var config = configs[section];
                 var fields = config.fields;
@@ -807,6 +888,37 @@
                         '<li>МП: ' + mp_percent + '% (план ' + plan_mp_percent + '%), <плана → 1, ≥плана → 1.4. Итог: ' + coeff_mp + '</li>' +
                         '<li>ООФсм = ОБ + (ОБ×ТП−ОБ) + (ОБ×Обращ−ОБ) + (ОБ×Кофе−ОБ) + (ОБ×МП−ОБ) + (ОБ×Миникафе−ОБ) = ' + oofsm.toFixed(2) + ' руб.</li>' +
                         '<li>Премия: ' + oofsm.toFixed(2) + ' / ' + hours_shift + ' × ' + hours_employee + ' = ' + employee_bonus.toFixed(2) + ' руб.</li>' +
+                        '</ul>';}else if(section==='gasattendant'){var hours_employee = inputs['gasattendant_hours_employee'];
+                    var hours_shift = inputs['gasattendant_hours_shift'];
+                    var sog_count = inputs['gasattendant_sog'];
+                    var fuel_percent = inputs['gasattendant_fuel_percent'];
+                    var tearoffs = inputs['gasattendant_tearoffs'];
+                    var complaints = inputs['gasattendant_complaints'];
+                    var zb = hours_employee * 70.83 + sog_count * 50;
+                    var coeff_totopl = fuel_percent >= 100 ? 1.4 : 0.5;
+                    var coeff_tp = coeff_ik;
+                    var coeff_tearoff = tearoffs >= 1 ? 0.5 : 1;
+                    var coeff_compl = complaints >= 1 ? 0.5 : 1;
+                    var zofsm = (zb * coeff_totopl) + (zb * coeff_tp - zb) + (zb * coeff_tearoff - zb) + (zb * coeff_compl - zb);
+                    if (zofsm < 0) zofsm = 0;
+                    var employee_bonus = zofsm / hours_shift * hours_employee;
+                    var tp_text = (typeof ik_percent === 'string') ?
+                        'ТП: ' + ik_percent + ', коэффициент: ' + coeff_tp :
+                        'ТП: ' + ik_percent + '%, <85% → 0, 85-99% → 1, ≥100% → 2. Итог: ' + coeff_tp;
+                    resultDiv.innerHTML =
+                        '<h3>Результат:</h3>' +
+                        '<p class="azs-result-main">База заправщика (ЗБ): ' + zb.toFixed(2) + ' руб.</p>' +
+                        '<p class="azs-result-main">Общий фонд премии на смену (ЗОФсм): ' + zofsm.toFixed(2) + ' руб.</p>' +
+                        '<p class="azs-result-main">Премия на сотрудника: ' + employee_bonus.toFixed(2) + ' руб.</p>' +
+                        '<h3>Как считали:</h3>' +
+                        '<ul>' +
+                        '<li>ЗБ = Часы(сотруд) × 70,83 + кол-во СОЖ × 50 = ' + hours_employee + ' × 70,83 + ' + sog_count + ' × 50 = ' + zb.toFixed(2) + ' руб.</li>' +
+                        '<li>ТОтопл: план ' + fuel_percent + '%, <100% → 0.5, ≥100% → 1.4. Итог: ' + coeff_totopl + '</li>' +
+                        '<li>' + tp_text + '</li>' +
+                        '<li>Отрывы ГРК: ' + tearoffs + ', ≥1 → 0.5, 0 → 1. Итог: ' + coeff_tearoff + '</li>' +
+                        '<li>Обращения: ' + complaints + ', ≥1 → 0.5, 0 → 1. Итог: ' + coeff_compl + '</li>' +
+                        '<li>ЗОФсм = (ЗБ×ТОтопл) + (ЗБ×ТП−ЗБ) + (ЗБ×Отрыв−ЗБ) + (ЗБ×Обращ−ЗБ) = ' + zofsm.toFixed(2) + ' руб.</li>' +
+                        '<li>Премия: ' + zofsm.toFixed(2) + ' / ' + hours_shift + ' × ' + hours_employee + ' = ' + employee_bonus.toFixed(2) + ' руб.</li>' +
                         '</ul>';}else{var rate = inputs[section + '_rate'];
                     var hours_employee = inputs[section + '_hours_employee'];
                     var hours_shift = inputs[section + '_hours_shift'];
@@ -951,13 +1063,33 @@
                     '\nПлан МП (%): ' + plan_mp + '\nЧасы в смене: ' + hours_shift +
                     '\nЧасы отработанные сотрудником: ' + hours_employee + '\n\n' + resultsAndLogic;
 
+                if (navigator.clipboard && navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){alert('Результаты скопированы!');}).catch(function(){alert('Не удалось скопировать, вот текст: \n\n' + text);});}else{alert('Скопируйте текст: \n\n' + text);}}function copyGasattendantResults(){var hours_employee = getElement('azs_gasattendant_hours_employee').value || 'не указано';
+                var hours_shift = getElement('azs_gasattendant_hours_shift').value || 'не указано';
+                var sog = getElement('azs_gasattendant_sog').value || 'не указано';
+                var fuel_percent = getElement('azs_gasattendant_fuel_percent').value || 'не указано';
+                var tp_check = getElement('azs_gasattendant_tp_check').value || 'не указано';
+                var tp_percent = tp_check === 'yes' ? (getElement('azs_gasattendant_ik').value || 'не указано') : 'не проверялось';
+                var tearoffs = getElement('azs_gasattendant_tearoffs').value || 'не указано';
+                var complaints = getElement('azs_gasattendant_complaints').value || 'не указано';
+                var resultDiv = getElement('azs_gasattendant_result');
+                var resultsAndLogic = 'не рассчитано';
+
+                if (resultDiv && resultDiv.innerText.includes('Результат')){resultsAndLogic = resultDiv.innerText.trim();}var text = 'Часы отработанные сотрудником: ' + hours_employee +
+                    '\nЧасы в смене: ' + hours_shift +
+                    '\nКоличество СОЖ: ' + sog +
+                    '\nПлан пролива топлива (%): ' + fuel_percent +
+                    '\nБыла ли проверка ТП: ' + (tp_check === 'yes' ? 'Да' : tp_check === 'no' ? 'Нет/Не знаю' : 'не указано') +
+                    '\nТП (%): ' + tp_percent +
+                    '\nОтрывы ГРК: ' + tearoffs +
+                    '\nКоличество обращений: ' + complaints + '\n\n' + resultsAndLogic;
+
                 if (navigator.clipboard && navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){alert('Результаты скопированы!');}).catch(function(){alert('Не удалось скопировать, вот текст: \n\n' + text);});}else{alert('Скопируйте текст: \n\n' + text);}}// Функция инициализации
             function init(){if (isInitialized) return;
                 
                 try{// Инициализация селектора должности
                     var positionSelect = getElement('azs_position_select');
                     if (positionSelect){positionSelect.addEventListener('change', function(){var selected = this.value;
-                            var sections =['manager', 'cashier', 'cook', 'operator'];
+                            var sections =['manager', 'cashier', 'cook', 'operator', 'gasattendant'];
 
                             // Скрываем все секции и сбрасываем данные
                             sections.forEach(function(sec){var el = getElement('azs_' + sec + '_section');
@@ -1010,7 +1142,8 @@
                 copyManagerResults: copyManagerResults,
                 copyCashierResults: copyCashierResults,
                 copyCookResults: copyCookResults,
-                copyOperatorResults: copyOperatorResults};})();
+                copyOperatorResults: copyOperatorResults,
+                copyGasattendantResults: copyGasattendantResults};})();
 
         // Инициализация при загрузке DOM
         if (document.readyState === 'loading'){document.addEventListener('DOMContentLoaded', function(){window.AZSCalculator.init();});}else{window.AZSCalculator.init();}// Дополнительная инициализация для совместимости с Битрикс24
