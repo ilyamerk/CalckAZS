@@ -467,14 +467,38 @@
             <h2 class="azs-section-title">Ст. оператор-кассир, оператор-кассир, оператор мини-кафе</h2>
             <div class="azs-fields-grid">
                 <div id="azs_operator_field1" class="azs-field">
-                    <label class="azs-label">Часовая ставка, руб.</label>
+                    <label class="azs-label">ТО по нетопливным продажам (ТОмаг), руб.</label>
                     <div class="azs-input-wrapper">
-                        <input type="number" step="any" id="azs_operator_rate" class="azs-input">
-                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_rate_hint')">?</span>
+                        <input type="number" step="any" id="azs_operator_to_nonfuel" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_to_nonfuel_hint')">?</span>
                     </div>
-                    <p id="azs_operator_rate_hint" class="azs-hint-text azs-hidden">Часовая ставка в рублях. Введите положительное число.</p>
+                    <p id="azs_operator_to_nonfuel_hint" class="azs-hint-text azs-hidden">Товарооборот по нетопливным продажам в рублях за сутки. Введите положительное число.</p>
                 </div>
                 <div id="azs_operator_field2" class="azs-field" style="display: none;">
+                    <label class="azs-label">Выполнение плана ТО по нетопливу, %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_operator_to_nonfuel_percent" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_to_nonfuel_percent_hint')">?</span>
+                    </div>
+                    <p id="azs_operator_to_nonfuel_percent_hint" class="azs-hint-text azs-hidden">Процент выполнения плана ТО по нетопливным продажам (от 0% и выше).</p>
+                </div>
+                <div id="azs_operator_field3" class="azs-field" style="display: none;">
+                    <label class="azs-label">Пролив топлива (Тотопл), литров</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_operator_fuel_liters" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_fuel_liters_hint')">?</span>
+                    </div>
+                    <p id="azs_operator_fuel_liters_hint" class="azs-hint-text azs-hidden">Фактический пролив всех видов топлива в литрах. Введите положительное число.</p>
+                </div>
+                <div id="azs_operator_field4" class="azs-field" style="display: none;">
+                    <label class="azs-label">Выполнение плана пролива топлива (ТОтопл), %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_operator_fuel_percent" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_fuel_percent_hint')">?</span>
+                    </div>
+                    <p id="azs_operator_fuel_percent_hint" class="azs-hint-text azs-hidden">Процент выполнения плана пролива топлива (от 0% и выше).</p>
+                </div>
+                <div id="azs_operator_field5" class="azs-field" style="display: none;">
                     <label class="azs-label">Сколько часов отработал сотрудник?</label>
                     <div class="azs-range-wrapper">
                         <input type="range" min="1" max="24" step="0.5" value="1" id="azs_operator_hours_employee" class="azs-range">
@@ -483,37 +507,13 @@
                     </div>
                     <p id="azs_operator_hours_employee_hint" class="azs-hint-text azs-hidden">Количество отработанных часов сотрудником. Выберите от 1 до 24 часов.</p>
                 </div>
-                <div id="azs_operator_field3" class="azs-field" style="display: none;">
+                <div id="azs_operator_field6" class="azs-field" style="display: none;">
                     <label class="azs-label">Сколько часов длилась смена</label>
                     <div class="azs-input-wrapper">
                         <input type="number" step="any" id="azs_operator_hours_shift" class="azs-input">
                         <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_hours_shift_hint')">?</span>
                     </div>
                     <p id="azs_operator_hours_shift_hint" class="azs-hint-text azs-hidden">Общее количество часов в смене. Введите положительное число.</p>
-                </div>
-                <div id="azs_operator_field4" class="azs-field" style="display: none;">
-                    <label class="azs-label">ТО по нетопливным продажам (ТОмаг), руб.</label>
-                    <div class="azs-input-wrapper">
-                        <input type="number" step="any" id="azs_operator_to_nonfuel" class="azs-input">
-                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_to_nonfuel_hint')">?</span>
-                    </div>
-                    <p id="azs_operator_to_nonfuel_hint" class="azs-hint-text azs-hidden">Товарооборот по нетопливным продажам в рублях за сутки. Введите положительное число.</p>
-                </div>
-                <div id="azs_operator_field5" class="azs-field" style="display: none;">
-                    <label class="azs-label">Выполнение плана ТО по нетопливу, %</label>
-                    <div class="azs-input-wrapper">
-                        <input type="number" id="azs_operator_to_nonfuel_percent" class="azs-input">
-                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_to_nonfuel_percent_hint')">?</span>
-                    </div>
-                    <p id="azs_operator_to_nonfuel_percent_hint" class="azs-hint-text azs-hidden">Процент выполнения плана ТО по нетопливным продажам (от 0% и выше).</p>
-                </div>
-                <div id="azs_operator_field6" class="azs-field" style="display: none;">
-                    <label class="azs-label">Пролив топлива (Тотопл), литров</label>
-                    <div class="azs-input-wrapper">
-                        <input type="number" step="any" id="azs_operator_fuel_liters" class="azs-input">
-                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_fuel_liters_hint')">?</span>
-                    </div>
-                    <p id="azs_operator_fuel_liters_hint" class="azs-hint-text azs-hidden">Фактический пролив всех видов топлива в литрах. Введите положительное число.</p>
                 </div>
                 <div id="azs_operator_field7" class="azs-field" style="display: none;">
                     <label class="azs-label">Была ли проверка тайного покупателя (ТП)?</label>
@@ -698,7 +698,7 @@
                         coffee: percent => percent < 100 ? 1 : 1.4,
                         mpcafe: (percent, plan) => percent < plan ? 1 : 1.4},
                     numCoeffs: 6},
-                operator:{fields:['operator_rate', 'operator_hours_employee', 'operator_hours_shift', 'operator_to_nonfuel', 'operator_to_nonfuel_percent', 'operator_fuel_liters', 'operator_complaints', 'operator_coffee', 'operator_mp', 'operator_plan_mp'],
+                operator:{fields:['operator_to_nonfuel', 'operator_to_nonfuel_percent', 'operator_fuel_liters', 'operator_fuel_percent', 'operator_hours_employee', 'operator_hours_shift', 'operator_complaints', 'operator_coffee', 'operator_mp', 'operator_plan_mp'],
                     coeffs:{ik: percent => percent < 85 ? 0 : percent < 100 ? 1 : 2},
                     numCoeffs: 5}};
             function calculateSalary(section){resetBorders(section);
@@ -763,19 +763,20 @@
                         '<li>HR: ' + hr_percent + '%, ≤90% → 1, >90% → 1.5. Итог: ' + coeff_hr + '</li>' +
                         '<li>Среднее коэффициентов: (' + coeff_chltech + '+ ' + coeff_ik + '+ ' + coeff_speed + '+ ' + coeff_complaints + '+ ' + coeff_hr + ') / 5 = ' + average.toFixed(2) + '</li>' +
                         '<li>KPI: (' + to_with_coeff.toFixed(2) + '× ' + average.toFixed(2) + ') / ' + num_deputies + '= ' + kpi.toFixed(2) + 'руб.</li>' +
-                        '</ul>';}else if(section==='operator'){var rate = inputs['operator_rate'];
-                    var hours_employee = inputs['operator_hours_employee'];
+                        '</ul>';}else if(section==='operator'){var hours_employee = inputs['operator_hours_employee'];
                     var hours_shift = inputs['operator_hours_shift'];
                     var to_nonfuel = inputs['operator_to_nonfuel'];
                     var to_nonfuel_percent = inputs['operator_to_nonfuel_percent'];
                     var fuel_liters = inputs['operator_fuel_liters'];
+                    var fuel_percent = inputs['operator_fuel_percent'];
                     var complaints = inputs['operator_complaints'];
                     var coffee_percent = inputs['operator_coffee'];
                     var mp_percent = inputs['operator_mp'];
                     var plan_mp_percent = inputs['operator_plan_mp'];
                     var coeff_tomag = to_nonfuel_percent < 100 ? 0.03 : 0.05;
                     var tomag = to_nonfuel * coeff_tomag;
-                    var totopl = fuel_liters * 0.1;
+                    var coeff_totopl = 0.1;
+                    var totopl = fuel_liters * coeff_totopl;
                     var ob = tomag + totopl;
                     var coeff_tp = coeff_ik;
                     var minicafe_val = getElement('azs_operator_minicafe_check').value;
@@ -786,7 +787,6 @@
                     var oofsm = ob + (ob * coeff_tp - ob) + (ob * coeff_compl - ob) + (ob * coeff_coffee - ob) + (ob * coeff_mp - ob) + (ob * coeff_minicafe - ob);
                     if (oofsm < 0) oofsm = 0;
                     var employee_bonus = oofsm / hours_shift * hours_employee;
-                    var total_per_shift = employee_bonus + (hours_employee * rate);
                     var tp_text = (typeof ik_percent === 'string') ?
                         'ТП: ' + ik_percent + ', коэффициент: ' + coeff_tp :
                         'ТП: ' + ik_percent + '%, <85% → 0, 85-99% → 1, ≥100% → 2. Итог: ' + coeff_tp;
@@ -795,11 +795,10 @@
                         '<p class="azs-result-main">База (ОБ): ' + ob.toFixed(2) + ' руб.</p>' +
                         '<p class="azs-result-main">Общий фонд премии на смену (ООФсм): ' + oofsm.toFixed(2) + ' руб.</p>' +
                         '<p class="azs-result-main">Премия на сотрудника: ' + employee_bonus.toFixed(2) + ' руб.</p>' +
-                        '<p class="azs-result-main">Итого за смену: ' + total_per_shift.toFixed(2) + ' руб.</p>' +
                         '<h3>Как считали:</h3>' +
                         '<ul>' +
                         '<li>ТОмаг: ' + to_nonfuel + ' руб. × ' + coeff_tomag + ' (<100% → 0.03, ≥100% → 0.05) = ' + tomag.toFixed(2) + ' руб.</li>' +
-                        '<li>Тотопл: ' + fuel_liters + ' л × 0.1 = ' + totopl.toFixed(2) + ' руб.</li>' +
+                        '<li>Тотопл: ' + fuel_liters + ' л × ' + coeff_totopl + ' (план ' + fuel_percent + '%) = ' + totopl.toFixed(2) + ' руб.</li>' +
                         '<li>ОБ (база): ' + tomag.toFixed(2) + ' + ' + totopl.toFixed(2) + ' = ' + ob.toFixed(2) + ' руб.</li>' +
                         '<li>' + tp_text + '</li>' +
                         '<li>Обращения: ' + complaints + ', ≥1 → 0.5, 0 → 1. Итог: ' + coeff_compl + '</li>' +
@@ -808,7 +807,6 @@
                         '<li>МП: ' + mp_percent + '% (план ' + plan_mp_percent + '%), <плана → 1, ≥плана → 1.4. Итог: ' + coeff_mp + '</li>' +
                         '<li>ООФсм = ОБ + (ОБ×ТП−ОБ) + (ОБ×Обращ−ОБ) + (ОБ×Кофе−ОБ) + (ОБ×МП−ОБ) + (ОБ×Миникафе−ОБ) = ' + oofsm.toFixed(2) + ' руб.</li>' +
                         '<li>Премия: ' + oofsm.toFixed(2) + ' / ' + hours_shift + ' × ' + hours_employee + ' = ' + employee_bonus.toFixed(2) + ' руб.</li>' +
-                        '<li>Итого: ' + employee_bonus.toFixed(2) + ' + (' + hours_employee + ' × ' + rate + ') = ' + total_per_shift.toFixed(2) + ' руб.</li>' +
                         '</ul>';}else{var rate = inputs[section + '_rate'];
                     var hours_employee = inputs[section + '_hours_employee'];
                     var hours_shift = inputs[section + '_hours_shift'];
@@ -929,6 +927,7 @@
                 if (navigator.clipboard && navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){alert('Результаты скопированы!');}).catch(function(){alert('Не удалось скопировать, вот текст: \n\n' + text);});}else{alert('Скопируйте текст: \n\n' + text);}}function copyOperatorResults(){var to_nonfuel = getElement('azs_operator_to_nonfuel').value || 'не указано';
                 var to_nonfuel_percent = getElement('azs_operator_to_nonfuel_percent').value || 'не указано';
                 var fuel_liters = getElement('azs_operator_fuel_liters').value || 'не указано';
+                var fuel_percent = getElement('azs_operator_fuel_percent').value || 'не указано';
                 var tp_check = getElement('azs_operator_tp_check').value || 'не указано';
                 var tp_percent = tp_check === 'yes' ? (getElement('azs_operator_ik').value || 'не указано') : 'не проверялось';
                 var complaints = getElement('azs_operator_complaints').value || 'не указано';
@@ -938,12 +937,11 @@
                 var plan_mp = getElement('azs_operator_plan_mp').value || 'не указано';
                 var hours_shift = getElement('azs_operator_hours_shift').value || 'не указано';
                 var hours_employee = getElement('azs_operator_hours_employee').value || 'не указано';
-                var rate = getElement('azs_operator_rate').value || 'не указано';
                 var resultDiv = getElement('azs_operator_result');
                 var resultsAndLogic = 'не рассчитано';
 
                 if (resultDiv && resultDiv.innerText.includes('Результат')){resultsAndLogic = resultDiv.innerText.trim();}var text = 'ТО нетоплива: ' + to_nonfuel + '\nПлан ТО нетоплива (%): ' + to_nonfuel_percent +
-                    '\nПролив топлива (л): ' + fuel_liters +
+                    '\nПролив топлива (л): ' + fuel_liters + '\nПлан пролива топлива (%): ' + fuel_percent +
                     '\nБыла ли проверка ТП: ' + (tp_check === 'yes' ? 'Да' : tp_check === 'no' ? 'Нет/Не знаю' : 'не указано') +
                     '\nТП (%): ' + tp_percent +
                     '\nКоличество обращений: ' + complaints +
@@ -951,7 +949,7 @@
                     '\nМиникафе: ' + (minicafe === 'yes' ? 'Да' : minicafe === 'no' ? 'Нет' : 'не указано') +
                     '\nМП (%): ' + mp_percent +
                     '\nПлан МП (%): ' + plan_mp + '\nЧасы в смене: ' + hours_shift +
-                    '\nЧасы отработанные сотрудником: ' + hours_employee + '\nСтавка: ' + rate + '\n\n' + resultsAndLogic;
+                    '\nЧасы отработанные сотрудником: ' + hours_employee + '\n\n' + resultsAndLogic;
 
                 if (navigator.clipboard && navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){alert('Результаты скопированы!');}).catch(function(){alert('Не удалось скопировать, вот текст: \n\n' + text);});}else{alert('Скопируйте текст: \n\n' + text);}}// Функция инициализации
             function init(){if (isInitialized) return;
