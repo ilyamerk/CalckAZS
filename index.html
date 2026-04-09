@@ -777,14 +777,14 @@
                     var tomag = to_nonfuel * coeff_tomag;
                     var coeff_totopl = 0.1;
                     var totopl = fuel_liters * coeff_totopl;
-                    var ob = tomag + totopl;
-                    var coeff_tp = coeff_ik;
                     var minicafe_val = getElement('azs_operator_minicafe_check').value;
                     var coeff_minicafe = minicafe_val === 'yes' ? 1.4 : 1;
+                    var ob = (tomag + totopl) * coeff_minicafe;
+                    var coeff_tp = coeff_ik;
                     var coeff_compl = complaints >= 1 ? 0.5 : 1;
                     var coeff_coffee = coffee_percent < 100 ? 1 : 1.4;
                     var coeff_mp = mp_percent < plan_mp_percent ? 1 : 1.4;
-                    var oofsm = ob + (ob * coeff_tp - ob) + (ob * coeff_compl - ob) + (ob * coeff_coffee - ob) + (ob * coeff_mp - ob) + (ob * coeff_minicafe - ob);
+                    var oofsm = ob + (ob * coeff_tp - ob) + (ob * coeff_compl - ob) + (ob * coeff_coffee - ob) + (ob * coeff_mp - ob);
                     if (oofsm < 0) oofsm = 0;
                     var employee_bonus = oofsm / hours_shift * hours_employee;
                     var tp_text = (typeof ik_percent === 'string') ?
@@ -799,13 +799,13 @@
                         '<ul>' +
                         '<li>ТОмаг: ' + to_nonfuel + ' руб. × ' + coeff_tomag + ' (<100% → 0.03, ≥100% → 0.05) = ' + tomag.toFixed(2) + ' руб.</li>' +
                         '<li>Тотопл: ' + fuel_liters + ' л × ' + coeff_totopl + ' (план ' + fuel_percent + '%) = ' + totopl.toFixed(2) + ' руб.</li>' +
-                        '<li>ОБ (база): ' + tomag.toFixed(2) + ' + ' + totopl.toFixed(2) + ' = ' + ob.toFixed(2) + ' руб.</li>' +
+                        '<li>Миникафе: ' + (minicafe_val === 'yes' ? 'Да' : 'Нет') + ', Да → ×1.4, Нет → ×1. Итог: ×' + coeff_minicafe + '</li>' +
+                        '<li>ОБ (база): (' + tomag.toFixed(2) + ' + ' + totopl.toFixed(2) + ') × ' + coeff_minicafe + ' = ' + ob.toFixed(2) + ' руб.</li>' +
                         '<li>' + tp_text + '</li>' +
                         '<li>Обращения: ' + complaints + ', ≥1 → 0.5, 0 → 1. Итог: ' + coeff_compl + '</li>' +
                         '<li>Кофе: ' + coffee_percent + '%, <100% → 1, ≥100% → 1.4. Итог: ' + coeff_coffee + '</li>' +
-                        '<li>Миникафе: ' + (minicafe_val === 'yes' ? 'Да' : 'Нет') + ', Да → 1.4, Нет → 1. Итог: ' + coeff_minicafe + '</li>' +
                         '<li>МП: ' + mp_percent + '% (план ' + plan_mp_percent + '%), <плана → 1, ≥плана → 1.4. Итог: ' + coeff_mp + '</li>' +
-                        '<li>ООФсм = ОБ + (ОБ×ТП−ОБ) + (ОБ×Обращ−ОБ) + (ОБ×Кофе−ОБ) + (ОБ×МП−ОБ) + (ОБ×Миникафе−ОБ) = ' + oofsm.toFixed(2) + ' руб.</li>' +
+                        '<li>ООФсм = ОБ + (ОБ×ТП−ОБ) + (ОБ×Обращ−ОБ) + (ОБ×Кофе−ОБ) + (ОБ×МП−ОБ) = ' + oofsm.toFixed(2) + ' руб.</li>' +
                         '<li>Премия: ' + oofsm.toFixed(2) + ' / ' + hours_shift + ' × ' + hours_employee + ' = ' + employee_bonus.toFixed(2) + ' руб.</li>' +
                         '</ul>';}else{var rate = inputs[section + '_rate'];
                     var hours_employee = inputs[section + '_hours_employee'];
