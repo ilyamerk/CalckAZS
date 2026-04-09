@@ -784,7 +784,7 @@
                     var coeff_compl = complaints >= 1 ? 0.5 : 1;
                     var coeff_coffee = coffee_percent < 100 ? 1 : 1.4;
                     var coeff_mp = mp_percent < plan_mp_percent ? 1 : 1.4;
-                    var oofsm = ob + (ob * coeff_tp - ob) + (ob * coeff_compl - ob) + (ob * coeff_coffee - ob) + (ob * coeff_mp - ob);
+                    var oofsm = ob + (ob * coeff_tp - ob) + (ob * coeff_compl - ob) + (ob * coeff_coffee - ob) + (ob * coeff_mp - ob) + (ob * coeff_minicafe - ob);
                     if (oofsm < 0) oofsm = 0;
                     var employee_bonus = oofsm / hours_shift * hours_employee;
                     var tp_text = (typeof ik_percent === 'string') ?
@@ -805,7 +805,7 @@
                         '<li>Обращения: ' + complaints + ', ≥1 → 0.5, 0 → 1. Итог: ' + coeff_compl + '</li>' +
                         '<li>Кофе: ' + coffee_percent + '%, <100% → 1, ≥100% → 1.4. Итог: ' + coeff_coffee + '</li>' +
                         '<li>МП: ' + mp_percent + '% (план ' + plan_mp_percent + '%), <плана → 1, ≥плана → 1.4. Итог: ' + coeff_mp + '</li>' +
-                        '<li>ООФсм = ОБ + (ОБ×ТП−ОБ) + (ОБ×Обращ−ОБ) + (ОБ×Кофе−ОБ) + (ОБ×МП−ОБ) = ' + oofsm.toFixed(2) + ' руб.</li>' +
+                        '<li>ООФсм = ОБ + (ОБ×ТП−ОБ) + (ОБ×Обращ−ОБ) + (ОБ×Кофе−ОБ) + (ОБ×МП−ОБ) + (ОБ×Миникафе−ОБ) = ' + oofsm.toFixed(2) + ' руб.</li>' +
                         '<li>Премия: ' + oofsm.toFixed(2) + ' / ' + hours_shift + ' × ' + hours_employee + ' = ' + employee_bonus.toFixed(2) + ' руб.</li>' +
                         '</ul>';}else{var rate = inputs[section + '_rate'];
                     var hours_employee = inputs[section + '_hours_employee'];
