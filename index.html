@@ -132,6 +132,7 @@
                 <option value="manager">Заместитель директора/Менеджер</option>
                 <option value="cashier">Кассир</option>
                 <option value="cook">Повар</option>
+                <option value="operator">Ст. оператор-кассир, оператор-кассир, оператор мини-кафе</option>
             </select>
         </div>
 
@@ -460,6 +461,123 @@
             </div>
             <div id="azs_cook_result" class="azs-result"></div>
         </div>
+
+        <!-- Оператор-кассир -->
+        <div id="azs_operator_section" class="azs-section">
+            <h2 class="azs-section-title">Ст. оператор-кассир, оператор-кассир, оператор мини-кафе</h2>
+            <div class="azs-fields-grid">
+                <div id="azs_operator_field1" class="azs-field">
+                    <label class="azs-label">Часовая ставка, руб.</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_operator_rate" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_rate_hint')">?</span>
+                    </div>
+                    <p id="azs_operator_rate_hint" class="azs-hint-text azs-hidden">Часовая ставка в рублях. Введите положительное число.</p>
+                </div>
+                <div id="azs_operator_field2" class="azs-field" style="display: none;">
+                    <label class="azs-label">Сколько часов отработал сотрудник?</label>
+                    <div class="azs-range-wrapper">
+                        <input type="range" min="1" max="24" step="0.5" value="1" id="azs_operator_hours_employee" class="azs-range">
+                        <span class="azs-slider-value" id="azs_operator_hours_employee_value">1ч</span>
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_hours_employee_hint')">?</span>
+                    </div>
+                    <p id="azs_operator_hours_employee_hint" class="azs-hint-text azs-hidden">Количество отработанных часов сотрудником. Выберите от 1 до 24 часов.</p>
+                </div>
+                <div id="azs_operator_field3" class="azs-field" style="display: none;">
+                    <label class="azs-label">Сколько часов длилась смена</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_operator_hours_shift" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_hours_shift_hint')">?</span>
+                    </div>
+                    <p id="azs_operator_hours_shift_hint" class="azs-hint-text azs-hidden">Общее количество часов в смене. Введите положительное число.</p>
+                </div>
+                <div id="azs_operator_field4" class="azs-field" style="display: none;">
+                    <label class="azs-label">ТО по нетопливным продажам (ТОмаг), руб.</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_operator_to_nonfuel" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_to_nonfuel_hint')">?</span>
+                    </div>
+                    <p id="azs_operator_to_nonfuel_hint" class="azs-hint-text azs-hidden">Товарооборот по нетопливным продажам в рублях за сутки. Введите положительное число.</p>
+                </div>
+                <div id="azs_operator_field5" class="azs-field" style="display: none;">
+                    <label class="azs-label">Выполнение плана ТО по нетопливу, %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_operator_to_nonfuel_percent" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_to_nonfuel_percent_hint')">?</span>
+                    </div>
+                    <p id="azs_operator_to_nonfuel_percent_hint" class="azs-hint-text azs-hidden">Процент выполнения плана ТО по нетопливным продажам (от 0% и выше).</p>
+                </div>
+                <div id="azs_operator_field6" class="azs-field" style="display: none;">
+                    <label class="azs-label">Пролив топлива (Тотопл), литров</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_operator_fuel_liters" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_fuel_liters_hint')">?</span>
+                    </div>
+                    <p id="azs_operator_fuel_liters_hint" class="azs-hint-text azs-hidden">Фактический пролив всех видов топлива в литрах. Введите положительное число.</p>
+                </div>
+                <div id="azs_operator_field7" class="azs-field" style="display: none;">
+                    <label class="azs-label">Была ли проверка тайного покупателя (ТП)?</label>
+                    <select id="azs_operator_tp_check" class="azs-select">
+                        <option value="">Выберите</option>
+                        <option value="yes">Да</option>
+                        <option value="no">Нет/Не знаю</option>
+                    </select>
+                    <div id="azs_operator_ik_input" class="azs-subfield" style="display: none;">
+                        <label class="azs-label">Результат проверки ТП, %</label>
+                        <div class="azs-input-wrapper">
+                            <input type="number" id="azs_operator_ik" class="azs-input">
+                            <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_ik_hint')">?</span>
+                        </div>
+                        <p id="azs_operator_ik_hint" class="azs-hint-text azs-hidden">Процент результата проверки тайного покупателя (от 0% и выше).</p>
+                    </div>
+                </div>
+                <div id="azs_operator_field8" class="azs-field" style="display: none;">
+                    <label class="azs-label">Количество подтвержденных отрицательных обращений</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" step="any" id="azs_operator_complaints" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_complaints_hint')">?</span>
+                    </div>
+                    <p id="azs_operator_complaints_hint" class="azs-hint-text azs-hidden">Количество отрицательных подтвержденных отзывов, без учета отзывов по доставке. Введите неотрицательное число.</p>
+                </div>
+                <div id="azs_operator_field9" class="azs-field" style="display: none;">
+                    <label class="azs-label">Выполнение плана по продажам кофе (ТОкофе), %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_operator_coffee" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_coffee_hint')">?</span>
+                    </div>
+                    <p id="azs_operator_coffee_hint" class="azs-hint-text azs-hidden">Процент выполнения плана по продажам кофе на смену в штуках (от 0% и выше).</p>
+                </div>
+                <div id="azs_operator_field10" class="azs-field" style="display: none;">
+                    <label class="azs-label">Есть ли миникафе на АЗС?</label>
+                    <select id="azs_operator_minicafe_check" class="azs-select">
+                        <option value="">Выберите</option>
+                        <option value="yes">Да</option>
+                        <option value="no">Нет</option>
+                    </select>
+                </div>
+                <div id="azs_operator_field11" class="azs-field" style="display: none;">
+                    <label class="azs-label">Проникновение моб. приложения (МП), %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_operator_mp" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_mp_hint')">?</span>
+                    </div>
+                    <p id="azs_operator_mp_hint" class="azs-hint-text azs-hidden">Процент проникновения мобильного приложения (от 0% до 100%).</p>
+                </div>
+                <div id="azs_operator_field12" class="azs-field" style="display: none;">
+                    <label class="azs-label">Плановый показатель МП, %</label>
+                    <div class="azs-input-wrapper">
+                        <input type="number" id="azs_operator_plan_mp" class="azs-input">
+                        <span class="azs-hint" onclick="AZSCalculator.toggleHint('azs_operator_plan_mp_hint')">?</span>
+                    </div>
+                    <p id="azs_operator_plan_mp_hint" class="azs-hint-text azs-hidden">Плановый процент на МП (от 0% до 100%).</p>
+                </div>
+            </div>
+            <div class="azs-buttons">
+                <button onclick="AZSCalculator.calculateSalary('operator')" class="azs-button azs-button-primary">Давай посчитаем!</button>
+                <button onclick="AZSCalculator.copyOperatorResults()" class="azs-button azs-button-secondary">Копировать результаты</button>
+            </div>
+            <div id="azs_operator_result" class="azs-result"></div>
+        </div>
     </div>
 
     <script>
@@ -479,7 +597,7 @@
             function clearFieldListeners(section){if (listeners[section]){listeners[section].forEach(function(item){if (item.input && item.handler){item.input.removeEventListener('input', item.handler);
                             item.input.removeEventListener('change', item.handler);}});
                     listeners[section]=[];}}// Инициализация последовательного показа полей
-            function initSequentialFields(section){var fieldCount = section === 'manager' ? 8 : 11;
+            function initSequentialFields(section){var fieldCount = section === 'manager' ? 8 : section === 'operator' ? 12 : 11;
                 
                 // Скрываем все поля, кроме первого
                 for (var i = 2; i <= fieldCount; i++){var field = getElement('azs_' + section + '_field' + i);
@@ -529,7 +647,13 @@
                             if (nextField){nextField.style.display = 'block';
                                 nextField.classList.add('azs-visible');}}};
                     tpSelect.addEventListener('change', handler);
-                    listeners[section].push({input: tpSelect, handler: handler});}}function resetBorders(section){var inputs = document.querySelectorAll('#azs_' + section + 'section .azs-input, #azs' + section + '_section .azs-select');
+                    listeners[section].push({input: tpSelect, handler: handler});}var minicafeSelect = getElement('azs_' + section + '_minicafe_check');
+                if (minicafeSelect){var minicafeHandler = function(){var value = minicafeSelect.value;
+                        var nextField = getElement('azs_' + section + '_field11');
+                        if (value !== ''){if (nextField){nextField.style.display = 'block';
+                                nextField.classList.add('azs-visible');}}};
+                    minicafeSelect.addEventListener('change', minicafeHandler);
+                    listeners[section].push({input: minicafeSelect, handler: minicafeHandler});}}function resetBorders(section){var inputs = document.querySelectorAll('#azs_' + section + 'section .azs-input, #azs' + section + '_section .azs-select');
                 for (var i = 0; i < inputs.length; i++){inputs[i].classList.remove('azs-input-error');}}function validateInputs(section, fields){var hasError = false;
                 
                 fields.forEach(function(fieldId){var input = getElement('azs_' + fieldId);
@@ -548,7 +672,9 @@
                     tpCheck.classList.add('azs-input-error');}else if (tpCheck && tpCheck.value === 'yes'){var ikInput = getElement('azs_' + section + '_ik');
                     if (ikInput){var ikValue = ikInput.value.trim();
                         if (ikValue === '' || parseFloat(ikValue) < 0){hasError = true;
-                            ikInput.classList.add('azs-input-error');}}}return hasError;}const configs ={manager:{fields:['manager_to_base', 'manager_to', 'manager_speed', 'manager_complaints', 'manager_hr', 'manager_num_deputies'],
+                            ikInput.classList.add('azs-input-error');}}}var minicafeCheck = getElement('azs_' + section + '_minicafe_check');
+                if (minicafeCheck && minicafeCheck.value === ''){hasError = true;
+                    minicafeCheck.classList.add('azs-input-error');}return hasError;}const configs ={manager:{fields:['manager_to_base', 'manager_to', 'manager_speed', 'manager_complaints', 'manager_hr', 'manager_num_deputies'],
                     coeffs:{TO: percent => percent < 90 ? 0.003 : percent < 100 ? 0.006 : 0.009,
                         chltech: percent => percent < 85 ? 0 : percent < 90 ? 0.5 : percent < 95 ? 1 : 1.25,
                         ik: percent => percent < 85 ? 0 : percent < 90 ? 0.75 : percent < 95 ? 1 : 1.25,
@@ -571,7 +697,10 @@
                         complaints: count => count === 0 ? 1 : 0.5,
                         coffee: percent => percent < 100 ? 1 : 1.4,
                         mpcafe: (percent, plan) => percent < plan ? 1 : 1.4},
-                    numCoeffs: 6}};
+                    numCoeffs: 6},
+                operator:{fields:['operator_rate', 'operator_hours_employee', 'operator_hours_shift', 'operator_to_nonfuel', 'operator_to_nonfuel_percent', 'operator_fuel_liters', 'operator_complaints', 'operator_coffee', 'operator_mp', 'operator_plan_mp'],
+                    coeffs:{ik: percent => percent < 85 ? 0 : percent < 100 ? 1 : 2},
+                    numCoeffs: 5}};
             function calculateSalary(section){resetBorders(section);
                 var config = configs[section];
                 var fields = config.fields;
@@ -588,11 +717,13 @@
                     setTimeout(function(){resultDiv.classList.add('azs-visible');}, 0);
                     return;}var inputs ={};
                 fields.forEach(function(fieldId){inputs[fieldId]= parseFloat(getElement('azs_' + fieldId).value);});
-                var chltech_check = getElement('azs_' + section + '_chltech_check').value;
+                var chltech_check_el = getElement('azs_' + section + '_chltech_check');
+                var chltech_check = chltech_check_el ? chltech_check_el.value : 'no';
                 var chltech_percent, coeff_chltech;
                 if (chltech_check === 'no'){coeff_chltech = 1;
                     chltech_percent = 'Не проверялось';}else{chltech_percent = parseFloat(getElement('azs_' + section + '_chltech').value);
-                    coeff_chltech = config.coeffs.chltech(chltech_percent);}var tp_check = getElement('azs_' + section + '_tp_check').value;
+                    coeff_chltech = config.coeffs.chltech(chltech_percent);}var tp_check_el = getElement('azs_' + section + '_tp_check');
+                var tp_check = tp_check_el ? tp_check_el.value : 'no';
                 var ik_percent, coeff_ik;
                 if (tp_check === 'no'){coeff_ik = 1;
                     ik_percent = 'Не проверялось';}else{ik_percent = parseFloat(getElement('azs_' + section + '_ik').value);
@@ -632,6 +763,52 @@
                         '<li>HR: ' + hr_percent + '%, ≤90% → 1, >90% → 1.5. Итог: ' + coeff_hr + '</li>' +
                         '<li>Среднее коэффициентов: (' + coeff_chltech + '+ ' + coeff_ik + '+ ' + coeff_speed + '+ ' + coeff_complaints + '+ ' + coeff_hr + ') / 5 = ' + average.toFixed(2) + '</li>' +
                         '<li>KPI: (' + to_with_coeff.toFixed(2) + '× ' + average.toFixed(2) + ') / ' + num_deputies + '= ' + kpi.toFixed(2) + 'руб.</li>' +
+                        '</ul>';}else if(section==='operator'){var rate = inputs['operator_rate'];
+                    var hours_employee = inputs['operator_hours_employee'];
+                    var hours_shift = inputs['operator_hours_shift'];
+                    var to_nonfuel = inputs['operator_to_nonfuel'];
+                    var to_nonfuel_percent = inputs['operator_to_nonfuel_percent'];
+                    var fuel_liters = inputs['operator_fuel_liters'];
+                    var complaints = inputs['operator_complaints'];
+                    var coffee_percent = inputs['operator_coffee'];
+                    var mp_percent = inputs['operator_mp'];
+                    var plan_mp_percent = inputs['operator_plan_mp'];
+                    var coeff_tomag = to_nonfuel_percent < 100 ? 0.03 : 0.05;
+                    var tomag = to_nonfuel * coeff_tomag;
+                    var totopl = fuel_liters * 0.1;
+                    var ob = tomag + totopl;
+                    var coeff_tp = coeff_ik;
+                    var minicafe_val = getElement('azs_operator_minicafe_check').value;
+                    var coeff_minicafe = minicafe_val === 'yes' ? 1.4 : 1;
+                    var coeff_compl = complaints >= 1 ? 0.5 : 1;
+                    var coeff_coffee = coffee_percent < 100 ? 1 : 1.4;
+                    var coeff_mp = mp_percent < plan_mp_percent ? 1 : 1.4;
+                    var oofsm = ob + (ob * coeff_tp - ob) + (ob * coeff_compl - ob) + (ob * coeff_coffee - ob) + (ob * coeff_mp - ob) + (ob * coeff_minicafe - ob);
+                    if (oofsm < 0) oofsm = 0;
+                    var employee_bonus = oofsm / hours_shift * hours_employee;
+                    var total_per_shift = employee_bonus + (hours_employee * rate);
+                    var tp_text = (typeof ik_percent === 'string') ?
+                        'ТП: ' + ik_percent + ', коэффициент: ' + coeff_tp :
+                        'ТП: ' + ik_percent + '%, <85% → 0, 85-99% → 1, ≥100% → 2. Итог: ' + coeff_tp;
+                    resultDiv.innerHTML =
+                        '<h3>Результат:</h3>' +
+                        '<p class="azs-result-main">База (ОБ): ' + ob.toFixed(2) + ' руб.</p>' +
+                        '<p class="azs-result-main">Общий фонд премии на смену (ООФсм): ' + oofsm.toFixed(2) + ' руб.</p>' +
+                        '<p class="azs-result-main">Премия на сотрудника: ' + employee_bonus.toFixed(2) + ' руб.</p>' +
+                        '<p class="azs-result-main">Итого за смену: ' + total_per_shift.toFixed(2) + ' руб.</p>' +
+                        '<h3>Как считали:</h3>' +
+                        '<ul>' +
+                        '<li>ТОмаг: ' + to_nonfuel + ' руб. × ' + coeff_tomag + ' (<100% → 0.03, ≥100% → 0.05) = ' + tomag.toFixed(2) + ' руб.</li>' +
+                        '<li>Тотопл: ' + fuel_liters + ' л × 0.1 = ' + totopl.toFixed(2) + ' руб.</li>' +
+                        '<li>ОБ (база): ' + tomag.toFixed(2) + ' + ' + totopl.toFixed(2) + ' = ' + ob.toFixed(2) + ' руб.</li>' +
+                        '<li>' + tp_text + '</li>' +
+                        '<li>Обращения: ' + complaints + ', ≥1 → 0.5, 0 → 1. Итог: ' + coeff_compl + '</li>' +
+                        '<li>Кофе: ' + coffee_percent + '%, <100% → 1, ≥100% → 1.4. Итог: ' + coeff_coffee + '</li>' +
+                        '<li>Миникафе: ' + (minicafe_val === 'yes' ? 'Да' : 'Нет') + ', Да → 1.4, Нет → 1. Итог: ' + coeff_minicafe + '</li>' +
+                        '<li>МП: ' + mp_percent + '% (план ' + plan_mp_percent + '%), <плана → 1, ≥плана → 1.4. Итог: ' + coeff_mp + '</li>' +
+                        '<li>ООФсм = ОБ + (ОБ×ТП−ОБ) + (ОБ×Обращ−ОБ) + (ОБ×Кофе−ОБ) + (ОБ×МП−ОБ) + (ОБ×Миникафе−ОБ) = ' + oofsm.toFixed(2) + ' руб.</li>' +
+                        '<li>Премия: ' + oofsm.toFixed(2) + ' / ' + hours_shift + ' × ' + hours_employee + ' = ' + employee_bonus.toFixed(2) + ' руб.</li>' +
+                        '<li>Итого: ' + employee_bonus.toFixed(2) + ' + (' + hours_employee + ' × ' + rate + ') = ' + total_per_shift.toFixed(2) + ' руб.</li>' +
                         '</ul>';}else{var rate = inputs[section + '_rate'];
                     var hours_employee = inputs[section + '_hours_employee'];
                     var hours_shift = inputs[section + '_hours_shift'];
@@ -749,13 +926,40 @@
                     '\nПлан на МБ (%): ' + plan_mb_percent + '\nЧасы в смене: ' + hours_shift + 
                     '\nЧасы отработанные сотрудником: ' + hours_employee + '\nСтавка: ' + rate + '\n\n' + resultsAndLogic;
 
+                if (navigator.clipboard && navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){alert('Результаты скопированы!');}).catch(function(){alert('Не удалось скопировать, вот текст: \n\n' + text);});}else{alert('Скопируйте текст: \n\n' + text);}}function copyOperatorResults(){var to_nonfuel = getElement('azs_operator_to_nonfuel').value || 'не указано';
+                var to_nonfuel_percent = getElement('azs_operator_to_nonfuel_percent').value || 'не указано';
+                var fuel_liters = getElement('azs_operator_fuel_liters').value || 'не указано';
+                var tp_check = getElement('azs_operator_tp_check').value || 'не указано';
+                var tp_percent = tp_check === 'yes' ? (getElement('azs_operator_ik').value || 'не указано') : 'не проверялось';
+                var complaints = getElement('azs_operator_complaints').value || 'не указано';
+                var coffee_percent = getElement('azs_operator_coffee').value || 'не указано';
+                var minicafe = getElement('azs_operator_minicafe_check').value || 'не указано';
+                var mp_percent = getElement('azs_operator_mp').value || 'не указано';
+                var plan_mp = getElement('azs_operator_plan_mp').value || 'не указано';
+                var hours_shift = getElement('azs_operator_hours_shift').value || 'не указано';
+                var hours_employee = getElement('azs_operator_hours_employee').value || 'не указано';
+                var rate = getElement('azs_operator_rate').value || 'не указано';
+                var resultDiv = getElement('azs_operator_result');
+                var resultsAndLogic = 'не рассчитано';
+
+                if (resultDiv && resultDiv.innerText.includes('Результат')){resultsAndLogic = resultDiv.innerText.trim();}var text = 'ТО нетоплива: ' + to_nonfuel + '\nПлан ТО нетоплива (%): ' + to_nonfuel_percent +
+                    '\nПролив топлива (л): ' + fuel_liters +
+                    '\nБыла ли проверка ТП: ' + (tp_check === 'yes' ? 'Да' : tp_check === 'no' ? 'Нет/Не знаю' : 'не указано') +
+                    '\nТП (%): ' + tp_percent +
+                    '\nКоличество обращений: ' + complaints +
+                    '\nПлан по продажам кофе (%): ' + coffee_percent +
+                    '\nМиникафе: ' + (minicafe === 'yes' ? 'Да' : minicafe === 'no' ? 'Нет' : 'не указано') +
+                    '\nМП (%): ' + mp_percent +
+                    '\nПлан МП (%): ' + plan_mp + '\nЧасы в смене: ' + hours_shift +
+                    '\nЧасы отработанные сотрудником: ' + hours_employee + '\nСтавка: ' + rate + '\n\n' + resultsAndLogic;
+
                 if (navigator.clipboard && navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){alert('Результаты скопированы!');}).catch(function(){alert('Не удалось скопировать, вот текст: \n\n' + text);});}else{alert('Скопируйте текст: \n\n' + text);}}// Функция инициализации
             function init(){if (isInitialized) return;
                 
                 try{// Инициализация селектора должности
                     var positionSelect = getElement('azs_position_select');
                     if (positionSelect){positionSelect.addEventListener('change', function(){var selected = this.value;
-                            var sections =['manager', 'cashier', 'cook'];
+                            var sections =['manager', 'cashier', 'cook', 'operator'];
 
                             // Скрываем все секции и сбрасываем данные
                             sections.forEach(function(sec){var el = getElement('azs_' + sec + '_section');
@@ -807,7 +1011,8 @@
                 calculateSalary: calculateSalary,
                 copyManagerResults: copyManagerResults,
                 copyCashierResults: copyCashierResults,
-                copyCookResults: copyCookResults};})();
+                copyCookResults: copyCookResults,
+                copyOperatorResults: copyOperatorResults};})();
 
         // Инициализация при загрузке DOM
         if (document.readyState === 'loading'){document.addEventListener('DOMContentLoaded', function(){window.AZSCalculator.init();});}else{window.AZSCalculator.init();}// Дополнительная инициализация для совместимости с Битрикс24
